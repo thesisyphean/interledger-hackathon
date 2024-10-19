@@ -5,6 +5,7 @@
     export let campaignName = "Campaign";
     export let description = "Description...";
     export let percentFunded = 55;
+    export let isOwner = false;
 </script>
 
 <div class="bg-base-200 min-h-screen p-10 space-y-10">
@@ -15,9 +16,13 @@
         </div>
         <ProgressBar percentFunded={percentFunded} />
     </div>
+    {#if isOwner}
     <div class="space-y-8">
         {#each { length: 5 } as loan}
             <LoanCard title="Loan Title" description="From Joe Biden..." />
         {/each}
     </div>
+    {:else}
+    <!-- TODO -->
+    {/if}
 </div>

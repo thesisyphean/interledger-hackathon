@@ -1,5 +1,5 @@
 <script>
-    import CampaignCard from "./Card.svelte";
+    import CampaignCard from "./CampaignCard.svelte";
 
     let campaigns = [
         {

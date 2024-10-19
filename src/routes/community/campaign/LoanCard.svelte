@@ -9,7 +9,7 @@
   <div class="flex flex-row items-end space-x-4">
     <h2 class="card-title">{title}</h2>
     <p>{description}</p>
-    <!--
+    <!-- TODO
     <div class="card-actions justify-end">
       <button class="btn btn-primary">Buy Now</button>
     </div>
