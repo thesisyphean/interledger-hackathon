@@ -24,8 +24,11 @@ async function initDb() {
     await client.query(
       `
 DROP SCHEMA public CASCADE; CREATE SCHEMA public;
+
 CREATE TABLE IF NOT EXISTS users (
     userId UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
     firstName VARCHAR(255) NOT NULL,
     surname VARCHAR(255) NOT NULL,
     walletAddress VARCHAR(255) UNIQUE NOT NULL

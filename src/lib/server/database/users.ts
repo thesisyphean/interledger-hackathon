@@ -2,6 +2,8 @@ import { pool } from "./index";
 
 export interface User {
   userId: string; // UUID
+  email: string
+  password: string
   firstName: string;
   surname: string;
   walletAddress: string;
@@ -9,6 +11,8 @@ export interface User {
 
 export interface UserInCommunity {
   userId: string; // UUID
+  email: string
+  password: string
   firstName: string;
   surname: string;
   walletAddress: string;
@@ -41,7 +45,7 @@ export async function getUserById(id: string): Promise<User | null> {
 export async function getUserByCommunity(id: string): Promise<UserInCommunity[]> {
   const result = await pool.query(
     `
-        SELECT u.userId, u.firstName, u.surname, u.walletAddress, utc.joinedAt, utc.admin
+        SELECT u.userId, u.email, u.password, u.firstName, u.surname, u.walletAddress, utc.joinedAt, utc.admin
         FROM users u
         JOIN userToCommunity utc ON u.userId = utc.userId
         WHERE utc.communityId = $1;
@@ -54,17 +58,19 @@ export async function getUserByCommunity(id: string): Promise<UserInCommunity[]>
 
 // add user
 export async function addUser(
+  email: string,
+  password: string,
   firstName: string,
   surname: string,
   walletAddress: string,
 ): Promise<User> {
   const result = await pool.query(
     `
-        INSERT INTO users (firstName, surname, walletAddress)
-        VALUES ($1, $2, $3)
+        INSERT INTO users (email, password, firstName, surname, walletAddress)
+        VALUES ($1, $2, $3, $4, $5)
         RETURNING *;
     `,
-    [firstName, surname, walletAddress],
+    [email, password, firstName, surname, walletAddress],
   );
 
   return result.rows[0] as User;
@@ -80,4 +86,4 @@ export async function removeUser(userId: string): Promise<void> {
   );
 }
 
-await addUser("Luke", "Eberhard", "ergwfqegrergbegr");
+await addUser("luke.eberhard@gmail.com", "poes", "Luke", "Eberhard", "ergwfqegrergbegr");
