@@ -1,11 +1,3 @@
-export interface User {
-  userId: string; // UUID
-  firstName: string;
-  surname: string;
-  walletAddress: string;
-  dateOfBirth: string; // ISO Date string (e.g., 'YYYY-MM-DD')
-}
-
 export interface Campaign {
   campaignId: string; // UUID
   userId: string; // UUID
@@ -18,14 +10,6 @@ export interface Campaign {
   expiryDate: string; // ISO Date string (e.g., 'YYYY-MM-DD')
   repaymentDurationMonths: number;
   repaymentDelayMonths: number;
-}
-
-export interface Loan {
-  loanId: string; // UUID
-  beneficiaryId: string; // UUID
-  lenderId: string; // UUID
-  tigerBeetleId: string; // Simulating unsigned 128-bit integer as string
-  amount: number; // Decimal (18, 2)
 }
 
 export interface Community {

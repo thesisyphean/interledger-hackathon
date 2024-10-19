@@ -1,6 +1,6 @@
 import pg from "pg";
 import { DATABASE_HOST, DATABASE_USER, DATABASE_PASSWORD } from "$env/static/private";
-import type { User } from "./models";
+import type { User } from "./users";
 
 export const pool = new pg.Pool({
   host: DATABASE_HOST,
@@ -27,7 +27,6 @@ CREATE TABLE IF NOT EXISTS users (
     firstName VARCHAR(255) NOT NULL,
     surname VARCHAR(255) NOT NULL,
     walletAddress VARCHAR(255) UNIQUE NOT NULL,
-    dateOfBirth DATE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS campaigns (
@@ -85,8 +84,8 @@ CREATE TABLE IF NOT EXISTS userToCommunity (
 
 await init_db();
 
-export async function get_users(): Promise<User[]> {
-  const result = await pool.query("SELECT * FROM users");
+// export async function get_users(): Promise<User[]> {
+//   const result = await pool.query("SELECT * FROM users");
 
-  return result.rows as User[];
-}
+//   return result.rows as User[];
+// }
