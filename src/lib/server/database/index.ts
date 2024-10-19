@@ -74,6 +74,9 @@ CREATE TABLE IF NOT EXISTS userToCommunity (
     FOREIGN KEY (userId) REFERENCES users(userId),
     FOREIGN KEY (communityId) REFERENCES communities(communityId)
 );
+
+INSERT INTO users (email, password, firstName, surname, walletAddress)
+    VALUES ('luke.eberhard@gmail.com', 'poes', 'Luke', 'Eberhard', 'ergwfqegrergbegr');
 `,
     );
 

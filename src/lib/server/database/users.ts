@@ -84,6 +84,4 @@ export async function removeUser(userId: string): Promise<void> {
     `,
     [userId],
   );
-}
-
-await addUser("luke.eberhard@gmail.com", "poes", "Luke", "Eberhard", "ergwfqegrergbegr");
+};

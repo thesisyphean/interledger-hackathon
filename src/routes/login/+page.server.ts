@@ -15,7 +15,7 @@ export const actions: Actions = {
       return fail(422);
     }
 
-    const session = login(email, password);
+    const session = await login(email, password);
     if (session === null) {
       return fail(400);
     }
