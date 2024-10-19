@@ -49,13 +49,13 @@
                 </label>
             </div>
             <div class="form-control mt-6">
-                <a href="community" class="btn btn-primary"> Login </a>
+                <a href="/" class="btn btn-primary"> Login </a>
             </div>
         </form>
         <div class="divider">OR</div>
         <div class="text-center">
             <p>Don't have an account?</p>
-            <a href="#" class="link link-primary">Sign up now</a>
+            <a href="/signup" class="link link-primary">Sign up now</a>
         </div>
     </div>
 </div>

@@ -10,12 +10,14 @@
     <ul class="menu menu-horizontal px-1">
       {#if communities}
       {#each communities as community}
-      <li><a href="/community">{community}</a></li>
+      <li><a href="/">{community}</a></li>
       {/each}
       {/if}
     </ul>
   </div>
+  <!--
   <div class="navbar-end">
     <button class="btn">Button</button>
   </div>
+  -->
 </div>

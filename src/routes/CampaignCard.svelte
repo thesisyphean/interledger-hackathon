@@ -17,7 +17,7 @@
     <h2 class="card-title">{title}</h2>
     <p>{description}</p>
     <div class="card-actions">
-      <a class="btn btn-primary" href="community/{url}">{actionText}</a>
+      <a class="btn btn-primary" href="{url}">{actionText}</a>
     </div>
   </div>
 </div>
