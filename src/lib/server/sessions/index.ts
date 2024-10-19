@@ -10,12 +10,10 @@ const sessions = new Map<string, Session>();
 export const SESSION_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
 
 export function check_session(session: string | undefined): string | null {
-  if (!session)
-    return null;
+  if (!session) return null;
 
   const s = sessions.get(session);
-  if (s === undefined)
-    return null;
+  if (s === undefined) return null;
 
   const now = Date.now();
   if (s.expiry < now) {
@@ -29,7 +27,15 @@ export function check_session(session: string | undefined): string | null {
 }
 
 export function login(email: string, password: string): string | null {
-  return crypto.randomBytes(16).toString('base64');
+  const user_uuid = "1";
+
+  const session = crypto.randomBytes(16).toString("base64");
+  sessions.set(session, {
+    user_uuid,
+    expiry: Date.now() + SESSION_MAX_AGE,
+  });
+
+  return session;
 }
 
 export function logout(session: string) {
