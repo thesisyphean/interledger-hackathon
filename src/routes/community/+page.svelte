@@ -1,5 +1,5 @@
 <script>
-    import Card from "./Card.svelte";
+    import CampaignCard from "./Card.svelte";
 
     let campaigns = [
         {
@@ -7,35 +7,35 @@
             title: "Campaign 1",
             description: "This is campaign 1",
             actionText: "View Campaign 1",
-            action: () => {}
+            url: "campaign"
         },
         {
             imageURL: "https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-800x525.jpg",
             title: "Campaign 2",
             description: "This is campaign 2",
             actionText: "View Campaign 2",
-            action: () => {}
+            url: "campaign"
         },
         {
             imageURL: "https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-800x525.jpg",
             title: "Campaign 3",
             description: "This is campaign 3",
             actionText: "View Campaign 3",
-            action: () => {}
+            url: "campaign"
         },
         {
             imageURL: "https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-800x525.jpg",
             title: "Campaign 4",
             description: "This is campaign 4",
             actionText: "View Campaign 4",
-            action: () => {}
+            url: "campaign"
         },
         {
             imageURL: "https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-800x525.jpg",
             title: "Campaign 5",
             description: "This is campaign 5",
             actionText: "View Campaign 5",
-            action: () => {}
+            url: "campaign"
         }
     ];
 </script>
@@ -45,7 +45,7 @@
     <!-- TODO -->
     <div class="flex justify-center items-center space-x-16">
         {#each campaigns.slice(i * 3, i * 3 + 3) as campaign}
-        <Card {...campaign} />
+        <CampaignCard {...campaign} />
         {/each}
     </div>
     {/each}
