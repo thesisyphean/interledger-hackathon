@@ -1,5 +1,5 @@
 import crypto from "node:crypto";
-import { getUsers, addUser } from "../database/users";
+import { getUserByEmail, addUser } from "../database/users";
 
 interface Session {
   userId: string;
@@ -40,8 +40,8 @@ export async function signup(firstName: string, lastName: string, email: string,
 }
 
 export async function login(email: string, password: string): Promise<string | null> {
-  // HACK: fixme
-  const user = (await getUsers())[0];
+  const user = await getUserByEmail(email);
+  if (user === null) return null;
 
   const session = crypto.randomBytes(16).toString("base64");
   sessions.set(session, {

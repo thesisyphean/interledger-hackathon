@@ -15,9 +15,7 @@
       {/if}
     </ul>
   </div>
-  <!--
   <div class="navbar-end">
-    <button class="btn">Button</button>
+    <button class="btn">Log Out</button>
   </div>
-  -->
 </div>

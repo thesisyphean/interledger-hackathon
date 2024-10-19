@@ -56,6 +56,19 @@ export async function getUserByCommunity(id: string): Promise<UserInCommunity[]>
   return result.rows[0] as UserInCommunity[];
 }
 
+export async function getUserByEmail(email: string): Promise<User | null> {
+  const result = await pool.query(
+    `
+        SELECT *
+        FROM "users" u
+        WHERE u."email" = $1
+    `,
+    [email],
+  );
+
+  return (result.rows[0] ?? null) as User | null;
+}
+
 // add user
 export async function addUser(
   email: string,
