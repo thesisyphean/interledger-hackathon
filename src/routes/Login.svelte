@@ -49,7 +49,7 @@
                 </label>
             </div>
             <div class="form-control mt-6">
-                <a href="" class="btn btn-primary"> Login </a>
+                <a href="community" class="btn btn-primary"> Login </a>
             </div>
         </form>
         <div class="divider">OR</div>
