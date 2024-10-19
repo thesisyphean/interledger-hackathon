@@ -14,7 +14,7 @@ CREATE TABLE campaigns (
     community_uuid UUID NOT NULL,
     max_interest_rate DECIMAL(5, 2) NOT NULL,
     description TEXT,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_created DATE DEFAULT CURRENT_DATE,
     expiry_date DATE NOT NULL,
     repayment_duration_months INT NOT NULL,
     repayment_delay_months INT NOT NULL,
