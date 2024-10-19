@@ -36,3 +36,20 @@ WHERE l.beneficiary_uuid = '<beneficiary_uuid>';
 SELECT l.loan_id, l.beneficiary_uuid, l.lender_uuid, l.tiger_beetle_id, l.amount
 FROM loans l
 WHERE l.lender_uuid = '<lender_uuid>';
+
+-- add user
+
+INSERT INTO users (first_name, surname, wallet_address, date_of_birth)
+VALUES (
+    '<first_name>', 
+    '<surname>', 
+    '<wallet_address>', 
+    '<date_of_birth>' --'YYYY-MM-DD'
+);
+
+INSERT INTO communities (name, description, creation_date)
+VALUES (
+    '<name>',               -- Replace with the community name
+    '<description>',        -- Replace with a description of the community
+    '<creation_date>'       -- Replace with the creation date (format: 'YYYY-MM-DD HH:MM:SS') or leave out to use the current timestamp
+);
