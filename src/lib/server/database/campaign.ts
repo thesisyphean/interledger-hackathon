@@ -102,15 +102,15 @@ export async function removeCampaign(campaignId: string): Promise<void> {
   );
 }
 
-const user = (await getUsers())[0];
-await addCampaign(
-  user.userId,
-  "My Campaign",
-  100,
-  "no community",
-  1,
-  "Whopeeee",
-  "2020-03-03",
-  6,
-  4,
-);
+// const user = (await getUsers())[0];
+// await addCampaign(
+//   user.userId,
+//   "My Campaign",
+//   100,
+//   "no community",
+//   1,
+//   "Whopeeee",
+//   "2020-03-03",
+//   6,
+//   4,
+// );
