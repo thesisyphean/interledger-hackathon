@@ -42,3 +42,19 @@ export async function get_loans_by_community(id: string): Promise<Loan[]> {
   
     return result.rows as Loan[];
 }
+
+// add loan
+export async function addLoan(
+    beneficiaryId: string, 
+    lenderId: string, 
+    tigerBeetleId: string, 
+    amount: number
+): Promise<Loan> {
+    const result = await pool.query(`
+        INSERT INTO loans (beneficiaryId, lenderId, tigerBeetleId, amount)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *;
+    `, [beneficiaryId, lenderId, tigerBeetleId, amount]);
+  
+    return result.rows[0] as Loan;
+}

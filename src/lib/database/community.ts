@@ -18,3 +18,17 @@ export interface Community {
     return result.rows as Community[];
 }
 
+// add community
+export async function addCommunity(
+    name: string, 
+    description: string
+): Promise<Community> {
+    const result = await pool.query(`
+        INSERT INTO communities (name, description)
+        VALUES ($1, $2)
+        RETURNING *;
+    `, [name, description]);
+  
+    return result.rows[0] as Community;
+}
+

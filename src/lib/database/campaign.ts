@@ -47,3 +47,24 @@ export async function get_campaign_by_community(id: string): Promise<Campaign[]>
   
     return result.rows as Campaign[];
 }
+
+// add campaign
+export async function addCampaign(
+    userId: string, 
+    name: string, 
+    amount: number, 
+    communityId: string, 
+    maxInterestRate: number, 
+    description: string, 
+    expiryDate: string,   // 'YYYY-MM-DD'
+    repaymentDurationMonths: number, 
+    repaymentDelayMonths: number
+): Promise<Campaign> {
+    const result = await pool.query(`
+        INSERT INTO campaigns (userId, name, amount, communityId, maxInterestRate, description, expiryDate, repaymentDurationMonths, repaymentDelayMonths)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        RETURNING *;
+    `, [userId, name, amount, communityId, maxInterestRate, description, expiryDate, repaymentDurationMonths, repaymentDelayMonths]);
+  
+    return result.rows[0] as Campaign;
+}

@@ -46,3 +46,13 @@ export async function get_user_by_community(id:string): Promise<UserInCommunity[
     return result.rows[0] as UserInCommunity[];
 }
 
+// add user
+export async function add(firstName: string, surname: string, walletAddress: string, dateOfBirth: string): Promise<User> {
+    const result = await pool.query(`
+        INSERT INTO users (firstName, surname, walletAddress, dateOfBirth)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *;
+    `, [firstName, surname, walletAddress, dateOfBirth]);
+  
+    return result.rows[0] as User;
+}
