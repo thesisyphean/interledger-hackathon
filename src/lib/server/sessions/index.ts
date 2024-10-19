@@ -1,7 +1,8 @@
 import crypto from "node:crypto";
+import { getUsers } from "../database/users";
 
 interface Session {
-  user_uuid: string;
+  userId: string;
   expiry: number;
 }
 
@@ -23,15 +24,16 @@ export function check_session(session: string | undefined): string | null {
 
   s.expiry = now + SESSION_MAX_AGE;
 
-  return s.user_uuid;
+  return s.userId;
 }
 
-export function login(email: string, password: string): string | null {
-  const user_uuid = "1";
+export async function login(email: string, password: string): Promise<string | null> {
+  // HACK: fixme
+  const user = (await getUsers())[0];
 
   const session = crypto.randomBytes(16).toString("base64");
   sessions.set(session, {
-    user_uuid,
+    userId: user.userId,
     expiry: Date.now() + SESSION_MAX_AGE,
   });
 

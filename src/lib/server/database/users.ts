@@ -1,65 +1,83 @@
-import {pool} from "./index";
+import { pool } from "./index";
 
 export interface User {
-    userId: string; // UUID
-    firstName: string;
-    surname: string;
-    walletAddress: string;
-  }
+  userId: string; // UUID
+  firstName: string;
+  surname: string;
+  walletAddress: string;
+}
 
 export interface UserInCommunity {
-    userId: string; // UUID
-    firstName: string;
-    surname: string;
-    walletAddress: string;
-    joinedAt: string;
-    admin: boolean;
-  }
+  userId: string; // UUID
+  firstName: string;
+  surname: string;
+  walletAddress: string;
+  joinedAt: string;
+  admin: boolean;
+}
 
 // return users
 export async function getUsers(): Promise<User[]> {
-    const result = await pool.query("SELECT * FROM users");
-  
-    return result.rows as User[];
+  const result = await pool.query("SELECT * FROM users");
+
+  return result.rows as User[];
 }
 
 // get user info by uuid
-export async function getUserById(id:string): Promise<User|null>{
-    const result = await pool.query(`
+export async function getUserById(id: string): Promise<User | null> {
+  const result = await pool.query(
+    `
         SELECT *
         FROM users u
         WHERE u.userId = $1
-    `,[id]);
-  
-    return (result.rows[0]??null) as User|null;
+    `,
+    [id],
+  );
+
+  return (result.rows[0] ?? null) as User | null;
 }
 
 //  get users in a given community
-export async function getUserByCommunity(id:string): Promise<UserInCommunity[]>{
-    const result = await pool.query(`
+export async function getUserByCommunity(id: string): Promise<UserInCommunity[]> {
+  const result = await pool.query(
+    `
         SELECT u.userId, u.firstName, u.surname, u.walletAddress, utc.joinedAt, utc.admin
         FROM users u
         JOIN userToCommunity utc ON u.userId = utc.userId
         WHERE utc.communityId = $1;
-    `,[id]);
-  
-    return result.rows[0] as UserInCommunity[];
+    `,
+    [id],
+  );
+
+  return result.rows[0] as UserInCommunity[];
 }
 
 // add user
-export async function addUser(firstName: string, surname: string, walletAddress: string): Promise<User> {
-    const result = await pool.query(`
+export async function addUser(
+  firstName: string,
+  surname: string,
+  walletAddress: string,
+): Promise<User> {
+  const result = await pool.query(
+    `
         INSERT INTO users (firstName, surname, walletAddress)
         VALUES ($1, $2, $3)
         RETURNING *;
-    `, [firstName, surname, walletAddress]);
-  
-    return result.rows[0] as User;
+    `,
+    [firstName, surname, walletAddress],
+  );
+
+  return result.rows[0] as User;
 }
 
 // Remove user by userId
 export async function removeUser(userId: string): Promise<void> {
-    await pool.query(`
+  await pool.query(
+    `
         DELETE FROM users WHERE userId = $1;
-    `, [userId]);
+    `,
+    [userId],
+  );
 }
+
+await addUser("Luke", "Eberhard", "ergwfqegrergbegr");
