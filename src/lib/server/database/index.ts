@@ -1,7 +1,5 @@
 import pg from "pg";
 import { DATABASE_HOST, DATABASE_USER, DATABASE_PASSWORD } from "$env/static/private";
-import { addUser } from "./users";
-import { addCampaign } from "./campaign";
 
 export const pool = new pg.Pool({
   host: DATABASE_HOST,
