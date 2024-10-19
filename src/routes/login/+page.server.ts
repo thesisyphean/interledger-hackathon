@@ -1,5 +1,5 @@
 import { login } from "$lib/server/sessions";
-import { fail } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 import type { Actions } from "./$types";
 
 export const actions: Actions = {
@@ -21,5 +21,6 @@ export const actions: Actions = {
     }
 
     cookies.set('session', session, { path: '/' });
+    return redirect(303, "/")
   }
 };

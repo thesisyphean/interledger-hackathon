@@ -1,7 +1,7 @@
 <div class="card w-96 bg-base-100 shadow-xl">
     <div class="card-body">
         <h2 class="card-title text-2xl font-bold mb-6">Login</h2>
-        <form>
+        <form method="post">
             <div class="form-control">
                 <label class="label">
                     <span class="label-text">Email</span>
@@ -19,6 +19,7 @@
                         /></svg
                     >
                     <input
+                        name="email"
                         type="email"
                         class="grow"
                         placeholder="email@example.com"
@@ -42,6 +43,7 @@
                         /></svg
                     >
                     <input
+                        name="password"
                         type="password"
                         class="grow"
                         placeholder="Enter password"
@@ -49,7 +51,7 @@
                 </label>
             </div>
             <div class="form-control mt-6">
-                <a href="/" class="btn btn-primary"> Login </a>
+                <button class="btn btn-primary" type="submit"> Login </button>
             </div>
         </form>
         <div class="divider">OR</div>

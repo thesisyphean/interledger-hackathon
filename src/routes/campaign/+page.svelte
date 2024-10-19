@@ -1,5 +1,6 @@
 <script lang="ts">
-  import LoanCard from "./LoanCard.svelte";
+  import Navbar from "../Navbar.svelte";
+import LoanCard from "./LoanCard.svelte";
   import ProgressBar from "./ProgressBar.svelte";
 
   /** @type {import('./$types').PageData} */
@@ -11,6 +12,7 @@
   let lendModal: HTMLDialogElement;
 </script>
 
+<Navbar communities={[]} />
 <div class="min-h-screen space-y-10 bg-base-200 p-10">
   <div class="flex flex-row items-center space-x-10">
     <div class="flex items-end space-x-10">

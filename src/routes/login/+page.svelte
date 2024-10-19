@@ -4,6 +4,6 @@
 </script>
 
 <Navbar communities={[]} />
-<div class="flex justify-center items-center bg-base-200 p-11">
+<div class="flex justify-center items-center bg-base-200 pt-11">
     <Login />
 </div>
