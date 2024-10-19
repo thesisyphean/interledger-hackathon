@@ -22,7 +22,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
       title: campaign.name || `Campaign ${index + 1}`, // Or use campaign.name if available
       description: campaign.description || `This is campaign ${index + 1}`, // Fallback description
       actionText: `View Campaign ${index + 1}`,
-      url: `campaign/${campaign.name || index + 1}`,
+      url: `campaign/${campaign.campaignId}`,
     })),
   };
 };
