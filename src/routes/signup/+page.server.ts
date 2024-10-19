@@ -1,4 +1,4 @@
-import { login } from "$lib/server/login";
+import { login } from "$lib/server/sessions";
 import { fail } from "@sveltejs/kit";
 import type { Actions } from "./$types";
 

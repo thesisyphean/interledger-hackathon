@@ -7,7 +7,7 @@ export interface Community {
     creationDate?: string; // ISO Date string (e.g., 'YYYY-MM-DD') default: CURRENT_DATE
   }
 
-  export async function get_commmunity_by_user(id: string): Promise<Community[]> {
+  export async function getCommmunityByUser(id: string): Promise<Community[]> {
     const result = await pool.query(`
             SELECT c.communityId, c.name, c.description, c.creationDate
             FROM communities c
@@ -32,3 +32,9 @@ export async function addCommunity(
     return result.rows[0] as Community;
 }
 
+// Remove community by communityId
+export async function removeCommunity(communityId: string): Promise<void> {
+    await pool.query(`
+        DELETE FROM communities WHERE communityId = $1;
+    `, [communityId]);
+}

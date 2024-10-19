@@ -21,3 +21,10 @@ export async function addUserToCommunity(
 
   return result.rows[0] as UserToCommunity;
 }
+
+// Remove user from community by userId and communityId
+export async function removeUserFromCommunity(userId: string, communityId: string): Promise<void> {
+  await pool.query(`
+      DELETE FROM userToCommunity WHERE userId = $1 AND communityId = $2;
+  `, [userId, communityId]);
+}

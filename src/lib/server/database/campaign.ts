@@ -15,7 +15,7 @@ export interface Campaign {
 }
 
 // get campaign by userid
-export async function get_campaign_by_user(id: string): Promise<Campaign[]> {
+export async function getCampaignByUser(id: string): Promise<Campaign[]> {
     const result = await pool.query(`
             SELECT *
             FROM campaigns
@@ -26,7 +26,7 @@ export async function get_campaign_by_user(id: string): Promise<Campaign[]> {
 }
 
 // get campagn by lender
-export async function get_campaign_by_lender(id: string): Promise<Campaign[]> {
+export async function getCampaignByLender(id: string): Promise<Campaign[]> {
     const result = await pool.query(`
             SELECT c.campaignId, c.userId, c.name, c.amount, c.communityId, c.maxInterestRate, c.description, c.dateCreated, c.expiryDate, c.repaymentDurationMonths, c.repaymentDelayMonths
             FROM campaigns c
@@ -38,7 +38,7 @@ export async function get_campaign_by_lender(id: string): Promise<Campaign[]> {
 }
 
 // get campaigns by community
-export async function get_campaign_by_community(id: string): Promise<Campaign[]> {
+export async function getCampaignByCommunity(id: string): Promise<Campaign[]> {
     const result = await pool.query(`
             SELECT *
             FROM campaigns c
@@ -67,4 +67,11 @@ export async function addCampaign(
     `, [userId, name, amount, communityId, maxInterestRate, description, expiryDate, repaymentDurationMonths, repaymentDelayMonths]);
   
     return result.rows[0] as Campaign;
+}
+
+// Remove campaign by campaignId
+export async function removeCampaign(campaignId: string): Promise<void> {
+    await pool.query(`
+        DELETE FROM campaigns WHERE campaignId = $1;
+    `, [campaignId]);
 }

@@ -1,6 +1,7 @@
 import pg from "pg";
 import { DATABASE_HOST, DATABASE_USER, DATABASE_PASSWORD } from "$env/static/private";
-import type { User } from "./users";
+import {addUser} from "./users";
+import {addCampaign} from "./campaign";
 
 export const pool = new pg.Pool({
   host: DATABASE_HOST,
@@ -14,7 +15,7 @@ export const pool = new pg.Pool({
   connectionTimeoutMillis: 2000,
 });
 
-async function init_db() {
+async function initDb() {
   const client = await pool.connect();
 
   try {
@@ -22,6 +23,7 @@ async function init_db() {
 
     await client.query(
       `
+DROP SCHEMA public CASCADE; CREATE SCHEMA public;
 CREATE TABLE IF NOT EXISTS users (
     userId UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     firstName VARCHAR(255) NOT NULL,
@@ -83,10 +85,7 @@ CREATE TABLE IF NOT EXISTS userToCommunity (
   }
 }
 
-await init_db();
-
-// export async function get_users(): Promise<User[]> {
-//   const result = await pool.query("SELECT * FROM users");
-
-//   return result.rows as User[];
-// }
+await initDb();
+// let user = await addUser("Luke", "Eberhard", "ergwfqegrergbegr");
+// console.log(addCampaign);
+// await addCampaign(user.userId, "My Campaign", 100, "no community", 1, "Whopeeee", "2020-03-03", 6, 4);

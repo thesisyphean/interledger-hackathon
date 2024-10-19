@@ -10,7 +10,7 @@ export interface Loan {
   }
 
 // get loans by uuid of beneficiary
-export async function get_loans_by_beneficiary(id: string): Promise<Loan[]> {
+export async function getLoansByBeneficiary(id: string): Promise<Loan[]> {
     const result = await pool.query(`
         SELECT *
         FROM loans l
@@ -21,7 +21,7 @@ export async function get_loans_by_beneficiary(id: string): Promise<Loan[]> {
 }
 
 // get loans by uuid of lender
-export async function get_loans_by_lender(id: string): Promise<Loan[]> {
+export async function getLoansByLender(id: string): Promise<Loan[]> {
     const result = await pool.query(`
         SELECT *
         FROM loans l
@@ -32,7 +32,7 @@ export async function get_loans_by_lender(id: string): Promise<Loan[]> {
 }
 
 // get loans by communityId
-export async function get_loans_by_community(id: string): Promise<Loan[]> {
+export async function getLoansByCommunity(id: string): Promise<Loan[]> {
     const result = await pool.query(`
         SELECT *
         FROM loans l
@@ -57,4 +57,11 @@ export async function addLoan(
     `, [beneficiaryId, lenderId, tigerBeetleId, amount]);
   
     return result.rows[0] as Loan;
+}
+
+// Remove loan by loanId
+export async function removeLoan(loanId: string): Promise<void> {
+    await pool.query(`
+        DELETE FROM loans WHERE loanId = $1;
+    `, [loanId]);
 }

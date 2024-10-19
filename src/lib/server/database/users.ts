@@ -17,14 +17,14 @@ export interface UserInCommunity {
   }
 
 // return users
-export async function get_users(): Promise<User[]> {
+export async function getUsers(): Promise<User[]> {
     const result = await pool.query("SELECT * FROM users");
   
     return result.rows as User[];
 }
 
 // get user info by uuid
-export async function get_user_by_id(id:string): Promise<User|null>{
+export async function getUserById(id:string): Promise<User|null>{
     const result = await pool.query(`
         SELECT *
         FROM users u
@@ -35,7 +35,7 @@ export async function get_user_by_id(id:string): Promise<User|null>{
 }
 
 //  get users in a given community
-export async function get_user_by_community(id:string): Promise<UserInCommunity[]>{
+export async function getUserByCommunity(id:string): Promise<UserInCommunity[]>{
     const result = await pool.query(`
         SELECT u.userId, u.firstName, u.surname, u.walletAddress, utc.joinedAt, utc.admin
         FROM users u
@@ -47,12 +47,19 @@ export async function get_user_by_community(id:string): Promise<UserInCommunity[
 }
 
 // add user
-export async function add(firstName: string, surname: string, walletAddress: string, dateOfBirth: string): Promise<User> {
+export async function addUser(firstName: string, surname: string, walletAddress: string): Promise<User> {
     const result = await pool.query(`
-        INSERT INTO users (firstName, surname, walletAddress, dateOfBirth)
-        VALUES ($1, $2, $3, $4)
+        INSERT INTO users (firstName, surname, walletAddress)
+        VALUES ($1, $2, $3)
         RETURNING *;
-    `, [firstName, surname, walletAddress, dateOfBirth]);
+    `, [firstName, surname, walletAddress]);
   
     return result.rows[0] as User;
+}
+
+// Remove user by userId
+export async function removeUser(userId: string): Promise<void> {
+    await pool.query(`
+        DELETE FROM users WHERE userId = $1;
+    `, [userId]);
 }
