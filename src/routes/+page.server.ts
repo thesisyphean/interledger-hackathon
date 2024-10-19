@@ -1,9 +1,11 @@
 import { get_campaign_by_user } from "$lib/server/database/campaign";
 import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from './$types';
+import { check_session } from "$lib/server/sessions";
 
-export const load: PageServerLoad = async ({ params, cookies }) => {
-  if (!check_session(cookies.get("session")))
+export const load: PageServerLoad = async ({ cookies }) => {
+  const user_uuid = check_session(cookies.get("session"));
+  if (!user_uuid)
     return redirect(303, "/login");
 
   await get_campaign_by_user();
