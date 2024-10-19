@@ -9,10 +9,10 @@ export interface Community {
 
   export async function getCommmunityByUser(id: string): Promise<Community[]> {
     const result = await pool.query(`
-            SELECT c.communityId, c.name, c.description, c.creationDate
-            FROM communities c
-            JOIN userToCommunity utc ON c.communityId = utc.communityId
-            WHERE utc.userId = $1;
+            SELECT c."communityId", c."name", c."description", c."creationDate"
+            FROM "communities" c
+            JOIN "userToCommunity" utc ON c."communityId" = utc."communityId"
+            WHERE utc."userId" = $1;
         `, [id]);
   
     return result.rows as Community[];
@@ -24,7 +24,7 @@ export async function addCommunity(
     description: string
 ): Promise<Community> {
     const result = await pool.query(`
-        INSERT INTO communities (name, description)
+        INSERT INTO "communities" ("name", "description")
         VALUES ($1, $2)
         RETURNING *;
     `, [name, description]);
@@ -35,6 +35,6 @@ export async function addCommunity(
 // Remove community by communityId
 export async function removeCommunity(communityId: string): Promise<void> {
     await pool.query(`
-        DELETE FROM communities WHERE communityId = $1;
+        DELETE FROM "communities" WHERE "communityId" = $1;
     `, [communityId]);
 }

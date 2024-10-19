@@ -22,7 +22,7 @@ export interface UserInCommunity {
 
 // return users
 export async function getUsers(): Promise<User[]> {
-  const result = await pool.query("SELECT * FROM users");
+  const result = await pool.query(`SELECT * FROM "users"`);
 
   return result.rows as User[];
 }
@@ -32,8 +32,8 @@ export async function getUserById(id: string): Promise<User | null> {
   const result = await pool.query(
     `
         SELECT *
-        FROM users u
-        WHERE u.userId = $1
+        FROM "users" u
+        WHERE u."userId" = $1
     `,
     [id],
   );
@@ -45,10 +45,10 @@ export async function getUserById(id: string): Promise<User | null> {
 export async function getUserByCommunity(id: string): Promise<UserInCommunity[]> {
   const result = await pool.query(
     `
-        SELECT u.userId, u.email, u.password, u.firstName, u.surname, u.walletAddress, utc.joinedAt, utc.admin
-        FROM users u
-        JOIN userToCommunity utc ON u.userId = utc.userId
-        WHERE utc.communityId = $1;
+        SELECT u."userId", u."email", u."password", u."firstName", u."surname", u."walletAddress", utc."joinedAt", utc."admin"
+        FROM "users" u
+        JOIN "userToCommunity" utc ON u."userId" = utc."userId"
+        WHERE utc."communityId" = $1;
     `,
     [id],
   );
@@ -66,7 +66,7 @@ export async function addUser(
 ): Promise<User> {
   const result = await pool.query(
     `
-        INSERT INTO users (email, password, firstName, surname, walletAddress)
+        INSERT INTO "users" ("email", "password", "firstName", "surname", "walletAddress")
         VALUES ($1, $2, $3, $4, $5)
         RETURNING *;
     `,
@@ -80,7 +80,7 @@ export async function addUser(
 export async function removeUser(userId: string): Promise<void> {
   await pool.query(
     `
-        DELETE FROM users WHERE userId = $1;
+        DELETE FROM "users" WHERE "userId" = $1;
     `,
     [userId],
   );

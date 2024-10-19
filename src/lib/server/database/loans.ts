@@ -13,8 +13,8 @@ export interface Loan {
 export async function getLoansByBeneficiary(id: string): Promise<Loan[]> {
     const result = await pool.query(`
         SELECT *
-        FROM loans l
-        WHERE l.beneficiaryId = $1;
+        FROM "loans" l
+        WHERE l."beneficiaryId" = $1;
         `, [id]);
   
     return result.rows as Loan[];
@@ -24,8 +24,8 @@ export async function getLoansByBeneficiary(id: string): Promise<Loan[]> {
 export async function getLoansByLender(id: string): Promise<Loan[]> {
     const result = await pool.query(`
         SELECT *
-        FROM loans l
-        WHERE l.lenderId = $1;
+        FROM "loans" l
+        WHERE l."lenderId" = $1;
         `, [id]);
   
     return result.rows as Loan[];
@@ -35,9 +35,9 @@ export async function getLoansByLender(id: string): Promise<Loan[]> {
 export async function getLoansByCommunity(id: string): Promise<Loan[]> {
     const result = await pool.query(`
         SELECT *
-        FROM loans l
-        JOIN campaigns c ON l.beneficiaryId = c.userId
-        WHERE c.communityId = $1;
+        FROM "loans" l
+        JOIN "campaigns" c ON l."beneficiaryId" = c."userId"
+        WHERE c."communityId" = $1;
         `, [id]);
   
     return result.rows as Loan[];
@@ -51,7 +51,7 @@ export async function addLoan(
     amount: number
 ): Promise<Loan> {
     const result = await pool.query(`
-        INSERT INTO loans (beneficiaryId, lenderId, tigerBeetleId, amount)
+        INSERT INTO "loans" ("beneficiaryId", "lenderId", "tigerBeetleId", "amount")
         VALUES ($1, $2, $3, $4)
         RETURNING *;
     `, [beneficiaryId, lenderId, tigerBeetleId, amount]);
@@ -62,6 +62,6 @@ export async function addLoan(
 // Remove loan by loanId
 export async function removeLoan(loanId: string): Promise<void> {
     await pool.query(`
-        DELETE FROM loans WHERE loanId = $1;
+        DELETE FROM "loans" WHERE "loanId" = $1;
     `, [loanId]);
 }

@@ -20,8 +20,8 @@ export async function getCampaignByUser(id: string): Promise<Campaign[]> {
   const result = await pool.query(
     `
             SELECT *
-            FROM campaigns
-            WHERE userId = $1;
+            FROM "campaigns"
+            WHERE "userId" = $1;
         `,
     [id],
   );
@@ -33,10 +33,10 @@ export async function getCampaignByUser(id: string): Promise<Campaign[]> {
 export async function getCampaignByLender(id: string): Promise<Campaign[]> {
   const result = await pool.query(
     `
-            SELECT c.campaignId, c.userId, c.name, c.amount, c.communityId, c.maxInterestRate, c.description, c.dateCreated, c.expiryDate, c.repaymentDurationMonths, c.repaymentDelayMonths
-            FROM campaigns c
-            JOIN loans l ON c.userId = l.beneficiaryId
-            WHERE l.lenderId = $1;
+            SELECT c."campaignId", c."userId", c."name", c."amount", c."communityId", c."maxInterestRate", c."description", c."dateCreated", c."expiryDate", c."repaymentDurationMonths", c."repaymentDelayMonths"
+            FROM "campaigns" c
+            JOIN "loans" l ON c."userId" = l."beneficiaryId"
+            WHERE l."lenderId" = $1;
         `,
     [id],
   );
@@ -49,8 +49,8 @@ export async function getCampaignByCommunity(id: string): Promise<Campaign[]> {
   const result = await pool.query(
     `
             SELECT *
-            FROM campaigns c
-            WHERE c.communityId = $1;
+            FROM "campaigns" c
+            WHERE c."communityId" = $1;
         `,
     [id],
   );
@@ -72,7 +72,7 @@ export async function addCampaign(
 ): Promise<Campaign> {
   const result = await pool.query(
     `
-        INSERT INTO campaigns (userId, name, amount, communityId, maxInterestRate, description, expiryDate, repaymentDurationMonths, repaymentDelayMonths)
+        INSERT INTO "campaigns" ("userId", "name", "amount", "communityId", "maxInterestRate", "description", "expiryDate", "repaymentDurationMonths", "repaymentDelayMonths")
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
         RETURNING *;
     `,
@@ -96,7 +96,7 @@ export async function addCampaign(
 export async function removeCampaign(campaignId: string): Promise<void> {
   await pool.query(
     `
-        DELETE FROM campaigns WHERE campaignId = $1;
+        DELETE FROM "campaigns" WHERE "campaignId" = $1;
     `,
     [campaignId],
   );

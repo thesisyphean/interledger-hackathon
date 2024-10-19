@@ -14,7 +14,7 @@ export async function addUserToCommunity(
   admin: boolean = false
 ): Promise<UserToCommunity> {
   const result = await pool.query(`
-      INSERT INTO userToCommunity (userId, communityId, admin)
+      INSERT INTO "userToCommunity" ("userId", "communityId", "admin")
       VALUES ($1, $2, $3)
       RETURNING *;
   `, [userId, communityId, admin]);
@@ -25,6 +25,6 @@ export async function addUserToCommunity(
 // Remove user from community by userId and communityId
 export async function removeUserFromCommunity(userId: string, communityId: string): Promise<void> {
   await pool.query(`
-      DELETE FROM userToCommunity WHERE userId = $1 AND communityId = $2;
+      DELETE FROM "userToCommunity" WHERE "userId" = $1 AND "communityId" = $2;
   `, [userId, communityId]);
 }
