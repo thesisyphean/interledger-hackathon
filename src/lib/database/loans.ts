@@ -31,7 +31,6 @@ export async function get_loans_by_lender(id: string): Promise<Loan[]> {
 }
 
 // get loans by communityId
-
 export async function get_loans_by_community(id: string): Promise<Loan[]> {
     const result = await pool.query(`
         SELECT *
