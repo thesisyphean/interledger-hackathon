@@ -1,5 +1,5 @@
 import crypto from "node:crypto";
-import { getUsers } from "../database/users";
+import { getUsers, addUser } from "../database/users";
 
 interface Session {
   userId: string;
@@ -25,6 +25,18 @@ export function check_session(session: string | undefined): string | null {
   s.expiry = now + SESSION_MAX_AGE;
 
   return s.userId;
+}
+
+export async function signup(firstName: string, lastName: string, email: string, password: string, url: string): Promise<string | null> {
+  const user = await addUser(email, password, firstName, lastName, url);
+
+  const session = crypto.randomBytes(16).toString("base64");
+  sessions.set(session, {
+    userId: user.userId,
+    expiry: Date.now() + SESSION_MAX_AGE,
+  });
+
+  return session;
 }
 
 export async function login(email: string, password: string): Promise<string | null> {
