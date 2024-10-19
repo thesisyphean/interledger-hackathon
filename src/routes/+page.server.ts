@@ -8,7 +8,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
   if (!user_uuid)
     return redirect(303, "/login");
 
-  await get_campaign_by_user();
+  let user = await get_campaign_by_user(user_uuid);
   return {
     user: {
 
