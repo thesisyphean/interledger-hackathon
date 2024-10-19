@@ -6,6 +6,7 @@ export interface Loan {
     lenderId: string; // UUID
     tigerBeetleId: string; // Simulating unsigned 128-bit integer as string
     amount: number; // Decimal (18, 2)
+    donation: boolean;
   }
 
 // get loans by uuid of beneficiary

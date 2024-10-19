@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS loans (
     lenderId UUID NOT NULL,
     tigerBeetleId DECIMAL(39) NOT NULL,  -- unsigned 128-bit integer
     amount DECIMAL(18, 2) NOT NULL,
+    donation BOOLEAN NOT NULL
     FOREIGN KEY (beneficiaryId) REFERENCES users(userId),
     FOREIGN KEY (lenderId) REFERENCES users(userId)
 );
