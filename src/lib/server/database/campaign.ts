@@ -29,6 +29,20 @@ export async function getCampaignByUser(id: string): Promise<Campaign[]> {
   return result.rows as Campaign[];
 }
 
+// get campaign by campaignId
+export async function getCampaignById(id: string): Promise<Campaign[]> {
+    const result = await pool.query(
+      `
+              SELECT *
+              FROM "campaigns"
+              WHERE "campaignId" = $1;
+          `,
+      [id],
+    );
+  
+    return result.rows as Campaign[];
+  }
+
 // get campagn by lender
 export async function getCampaignByLender(id: string): Promise<Campaign[]> {
   const result = await pool.query(
