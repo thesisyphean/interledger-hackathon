@@ -1,4 +1,4 @@
-import type { PageServerLoad } from './community/$types';
+import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = ({ params }) => {
     return {

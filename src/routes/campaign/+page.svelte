@@ -1,10 +1,14 @@
-<script>
+<script lang="ts">
   import LoanCard from "./LoanCard.svelte";
   import ProgressBar from "./ProgressBar.svelte";
 
   /** @type {import('./$types').PageData} */
   export let data;
-  const amountFunded = data.loans.reduce((acc, loan) => acc + loan.amountPaid, 0);
+  const amountFunded = data.loans.reduce((acc: Number, loan: any) => acc + loan.amountPaid, 0);
+
+  let payModal: HTMLDialogElement;
+  let donateModal: HTMLDialogElement;
+  let lendModal: HTMLDialogElement;
 </script>
 
 <div class="min-h-screen space-y-10 bg-base-200 p-10">
@@ -26,19 +30,74 @@
   {#if data.isOwner}
     <div class="space-y-8">
       {#each data.loans as loan}
-        <LoanCard {...loan} />
+        <LoanCard {...loan}>
+          <button class="btn btn-primary" on:click={() => payModal.showModal()}>Pay Back</button>
+          <dialog class="modal" bind:this={payModal}>
+            <div class="modal-box">
+              <form method="dialog">
+                <button class="btn btn-circle btn-ghost btn-sm absolute right-2 top-2">✕</button>
+              </form>
+              <h3 class="text-lg font-bold">Pay</h3>
+              <label class="form-control w-full">
+                <div class="label">
+                  <span class="label-text">How much would you like to pay?</span>
+                </div>
+                <input type="text" placeholder="Type here" class="input input-bordered w-full" />
+              </label>
+              <button class="btn btn-primary mt-4 w-full">Pay</button>
+            </div>
+          </dialog>
+        </LoanCard>
       {/each}
     </div>
   {:else}
     <div class="flex flex-row space-x-4 rounded-xl bg-base-100 p-4 shadow-xl">
-    <img class="rounded-xl h-32"
-      src="https://c8.alamy.com/comp/2K31TN8/he-only-has-eyes-for-his-boy-a-young-man-lifting-his-son-up-into-the-air-2K31TN8.jpg"
-      alt="Movie"
-    />
+      <img
+        class="h-32 rounded-xl"
+        src="https://c8.alamy.com/comp/2K31TN8/he-only-has-eyes-for-his-boy-a-young-man-lifting-his-son-up-into-the-air-2K31TN8.jpg"
+        alt="Movie"
+      />
       <p class="text-lg">{data.description}</p>
       <div class="flex flex-col space-y-8">
-        <button class="btn btn-primary">Donate</button>
-        <button class="btn btn-primary">Lend</button>
+        <button class="btn btn-accent" on:click={() => donateModal.showModal()}>Donate</button>
+        <dialog class="modal" bind:this={donateModal}>
+          <div class="modal-box">
+            <form method="dialog">
+              <button class="btn btn-circle btn-ghost btn-sm absolute right-2 top-2">✕</button>
+            </form>
+            <h3 class="text-lg font-bold">Donate</h3>
+            <label class="form-control w-full">
+              <div class="label">
+                <span class="label-text">How much would you like to donate?</span>
+              </div>
+              <input type="text" placeholder="Type here" class="input input-bordered w-full" />
+            </label>
+            <button class="btn btn-accent mt-4 w-full">Donate</button>
+          </div>
+        </dialog>
+
+        <button class="btn btn-secondary" on:click={() => lendModal.showModal()}>Lend</button>
+        <dialog class="modal" bind:this={lendModal}>
+          <div class="modal-box">
+            <form method="dialog">
+              <button class="btn btn-circle btn-ghost btn-sm absolute right-2 top-2">✕</button>
+            </form>
+            <h3 class="text-lg font-bold">Lend</h3>
+            <label class="form-control w-full">
+              <div class="label">
+                <span class="label-text">How much would you like to lend?</span>
+              </div>
+              <input type="text" placeholder="Type here" class="input input-bordered w-full" />
+            </label>
+            <label class="form-control w-full">
+              <div class="label">
+                <span class="label-text">What is the interest rate?</span>
+              </div>
+              <input type="text" placeholder="Type here" class="input input-bordered w-full" />
+            </label>
+            <button class="btn btn-secondary mt-4 w-full">Lend</button>
+          </div>
+        </dialog>
       </div>
     </div>
   {/if}

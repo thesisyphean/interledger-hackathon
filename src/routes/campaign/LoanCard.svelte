@@ -17,5 +17,5 @@
   <p>Total: {totalAmount}</p>
   <p>Paid: {amountPaid}</p>
   <ProgressBar percentFunded={(amountPaid / totalAmount) * 100} />
-  <button class="btn btn-primary">Pay Back</button>
+  <slot />
 </div>
