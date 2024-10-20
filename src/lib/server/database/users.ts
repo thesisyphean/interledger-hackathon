@@ -98,3 +98,19 @@ export async function removeUser(userId: string): Promise<void> {
     [userId],
   );
 };
+
+// get owner of campaign
+
+export async function getOwner(campagnId: string): Promise<User | null> {
+    const result = await pool.query(
+      `
+        SELECT u.*
+        FROM users u
+        INNER JOIN campaigns c ON u.userId = c.userId
+        WHERE c.campaignId = $1;
+      `,
+      [campagnId],
+    );
+  
+    return (result.rows[0] ?? null) as User | null;
+  }
