@@ -68,13 +68,15 @@ import LoanCard from "./LoanCard.svelte";
               <button class="btn btn-circle btn-ghost btn-sm absolute right-2 top-2">✕</button>
             </form>
             <h3 class="text-lg font-bold">Donate</h3>
+            <form action="/campaign/{data.slug}/donate" method="post">
             <label class="form-control w-full">
               <div class="label">
                 <span class="label-text">How much would you like to donate?</span>
               </div>
-              <input type="text" placeholder="Type here" class="input input-bordered w-full" />
+              <input name="amount" type="number" min="1" step="any" placeholder="1.0" class="input input-bordered w-full" />
             </label>
-            <button class="btn btn-accent mt-4 w-full">Donate</button>
+            <button type="submit" class="btn btn-accent mt-4 w-full">Donate</button>
+            </form>
           </div>
         </dialog>
 
@@ -85,19 +87,22 @@ import LoanCard from "./LoanCard.svelte";
               <button class="btn btn-circle btn-ghost btn-sm absolute right-2 top-2">✕</button>
             </form>
             <h3 class="text-lg font-bold">Lend</h3>
+
+            <form action="/campaign/{data.slug}/lend" method="post">
             <label class="form-control w-full">
               <div class="label">
                 <span class="label-text">How much would you like to lend?</span>
               </div>
-              <input type="text" placeholder="Type here" class="input input-bordered w-full" />
+              <input name="amount" type="number" min="1" step="any" placeholder="1.0" class="input input-bordered w-full" />
             </label>
             <label class="form-control w-full">
               <div class="label">
                 <span class="label-text">What is the interest rate?</span>
               </div>
-              <input type="text" placeholder="Type here" class="input input-bordered w-full" />
+              <input name="interest" type="number" min="1" step="any" placeholder="1.0" class="input input-bordered w-full" />
             </label>
-            <button class="btn btn-secondary mt-4 w-full">Lend</button>
+            <button type="submit" class="btn btn-secondary mt-4 w-full">Lend</button>
+            </form>
           </div>
         </dialog>
       </div>
