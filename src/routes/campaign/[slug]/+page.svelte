@@ -15,14 +15,19 @@
 <Navbar communities={[]} />
 <div class="min-h-screen space-y-10 bg-base-200 p-10">
   <div class="flex flex-row items-center space-x-10">
-    <div class="flex items-end space-x-10">
-      <h1 class="whitespace-nowrap text-3xl">{data.campaignName}</h1>
-      {#if data.isOwner}
-        <p class="text-xl">{data.description?.slice(0, 20)}...</p>
-      {:else}
-        <p class="text-xl whitespace-nowrap">{data.ownerName}</p>
-      {/if}
-      <p class="whitespace-nowrap text-xl">Total: {data.requiredAmount}</p>
+    <div class="flex space-x-10">
+      <div class="flex flex-col">
+        <h1 class="whitespace-nowrap text-3xl">{data.campaignName}</h1>
+        {#if data.isOwner}
+          <p class="whitespace-nowrap text-xl">{data.description?.slice(0, 35)}...</p>
+        {:else}
+          <p class="whitespace-nowrap text-xl">{data.ownerName}</p>
+        {/if}
+      </div>
+      <div class="flex flex-col">
+        <p class="whitespace-nowrap text-xl">Total: {data.requiredAmount}</p>
+        <p class="whitespace-nowrap text-xl">Received: {amountFunded}</p>
+      </div>
     </div>
     <ProgressBar percentFunded={(amountFunded / data.requiredAmount) * 100} />
   </div>
