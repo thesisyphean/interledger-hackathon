@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS "communities" (
 
 INSERT INTO "communities" ("name", "description")
     VALUES ('Sample Community', 'Sample Community Description'),
-    VALUES ('Sample Community 2', 'Second Community Description');
+    ('Sample Community 2', 'Second Community Description');
 
 CREATE TABLE IF NOT EXISTS "userToCommunity" (
     "userId" UUID NOT NULL,
@@ -116,9 +116,8 @@ VALUES (
     CURRENT_DATE + INTERVAL '30 days',                 -- Expiry date set to 30 days from now
     12,                                                 -- Filler repayment duration in months
     1                                                   -- Filler repayment delay in months
-),
-    (
-    SELECT "userId" FROM "users" ORDER BY "userId" LIMIT 1),  -- Get the UUID of the first user
+), (
+    (SELECT "userId" FROM "users" ORDER BY "userId" LIMIT 1),  -- Get the UUID of the first user
     'Second Sample Campaign',                                 -- Filler campaign name
     2000.00,
     (SELECT "communityId" FROM communities ORDER BY "communityId" LIMIT 1), -- Get the UUID of the first community
