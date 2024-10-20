@@ -1,4 +1,10 @@
-# Microlending
+# Usizo
+
+## Setup/Configuration
+
+Copy the `.env.example` file into a `.env` file in the project root, and customise the values according to your setup.
+
+A network-accessible PostgreSQL server and a TigerBeetle server are required.
 
 ## Running
 
@@ -9,9 +15,10 @@ npm install
 npm run dev -- --open
 ```
 
+NOTE: the server will reset the PostgreSQL database every time it is run, but it will not reset the contents of the TigerBeetle database (as this is not possible through its API). Please reset the TigerBeetle database by shutting down the server and deleting and recreating its data file before running the server again.
+
 ## Guide
 
-* If not automatically redirected to login, append /login to the URL
 * A user account is automatically added to the database with:
   * Username: luke.eberhard@gmail.com
   * Password: password
