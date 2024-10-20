@@ -19,6 +19,8 @@
       <h1 class="whitespace-nowrap text-3xl">{data.campaignName}</h1>
       {#if data.isOwner}
         <p class="text-xl">{data.description?.slice(0, 20)}...</p>
+      {:else}
+        <p class="text-xl">{data.ownerName}</p>
       {/if}
       <p class="whitespace-nowrap text-xl">Total: {data.requiredAmount}</p>
     </div>

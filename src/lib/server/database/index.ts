@@ -82,7 +82,8 @@ CREATE TABLE IF NOT EXISTS "userToCommunity" (
 
 INSERT INTO "users" ("email", "password", "firstName", "surname", "walletAddress")
     VALUES ('luke.eberhard@gmail.com', 'password', 'Luke', 'Eberhard', 'https://ilp.interledger-test.dev/payment-yes'),
-           ('joe@test.com', 'pword', 'Joe', 'Test', 'https://ilp.interledger-test.dev/testpointer');
+           ('joe@test.com', 'pword', 'Joe', 'Test', 'https://ilp.interledger-test.dev/testpointer'),
+           ('jaque@test.com', 'pass', 'Jaque', 'Test', 'https://ilp.interledger-test.dev/myaccount');
 
 INSERT INTO "userToCommunity" ("userId", "communityId")
     VALUES (
@@ -95,6 +96,10 @@ INSERT INTO "userToCommunity" ("userId", "communityId")
     ),
     (
       (SELECT "userId" FROM "users" WHERE "firstName" = 'Joe' LIMIT 1),
+      (SELECT "communityId" FROM "communities" WHERE "name" = 'Sample Community 2' LIMIT 1)
+    ),
+    (
+      (SELECT "userId" FROM "users" WHERE "firstName" = 'Jaque' LIMIT 1),
       (SELECT "communityId" FROM "communities" WHERE "name" = 'Sample Community 2' LIMIT 1)
     );
 

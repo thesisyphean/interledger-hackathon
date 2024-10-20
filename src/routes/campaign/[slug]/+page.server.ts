@@ -2,7 +2,7 @@ import type { Actions, PageServerLoad } from "./$types";
 import { getCampaignById } from "$lib/server/database/campaign";
 import { error, fail, redirect } from "@sveltejs/kit";
 import { check_session } from "$lib/server/sessions";
-import { getUserById } from "$lib/server/database/users";
+import { getOwner, getUserById } from "$lib/server/database/users";
 import { createLoan, getLoanCredits, getLoanDebits, payAmount } from "$lib/server/ledger";
 import { getLoanById, getLoansByCampaign } from "$lib/server/database/loans";
 import { pay } from "$lib/server/payments/single";
@@ -20,8 +20,11 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
   const loans = await getLoansByCampaign(campaign.campaignId);
 
   const isOwner = campaign.userId === user.userId;
+  const owner = isOwner ? user : await getOwner(campaign.campaignId);
+
   return {
     slug: params.slug,
+    ownerName: owner?.firstName + " " + owner?.surname,
     campaignName: campaign.name,
     description: campaign.description,
     requiredAmount: campaign.amount,
