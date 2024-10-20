@@ -103,7 +103,7 @@ VALUES (
     (SELECT "userId" FROM "users" ORDER BY "userId" LIMIT 1),  -- Get the UUID of the first user
     'Sample Campaign Name',                                 -- Filler campaign name
     1000.00,
-    (SELECT communityId FROM communities ORDER BY communityId LIMIT 1), -- Get the UUID of the first community
+    (SELECT "communityId" FROM communities ORDER BY "communityId" LIMIT 1), -- Get the UUID of the first community
     5.00,                                                -- Filler max interest rate
     'This is a sample campaign description.',            -- Filler description
     CURRENT_DATE,                                       -- Default to current date
