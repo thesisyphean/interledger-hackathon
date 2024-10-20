@@ -55,7 +55,7 @@ export const actions: Actions = {
         assetCode: "ZAR",
         assetScale: 2,
       },
-      "/",
+      redir,
     );
   },
 };
