@@ -1,5 +1,7 @@
-<script>
-  export let communities;
+
+<script lang="ts">
+  import type { Community } from "$lib/server/database/community";
+  export let communities: Community[];
 </script>
 
 <div class="navbar bg-base-100 h-16">

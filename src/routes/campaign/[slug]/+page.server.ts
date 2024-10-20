@@ -18,7 +18,7 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
       campaignName: campaign.name,
       description: campaign.description,
       requiredAmount: campaign.amount,
-      isOwner: true,
+      isOwner: campaign.userId === user.userId,
       loans: [
           {
               title: "Loan 1",

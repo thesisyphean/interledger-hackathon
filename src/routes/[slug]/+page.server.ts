@@ -1,4 +1,4 @@
-import { getCampaignByUser } from "$lib/server/database/campaign";
+import { getCampaignByCommunity } from "$lib/server/database/campaign";
 import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { check_session } from "$lib/server/sessions";
@@ -13,7 +13,7 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
   if (!user) return redirect(303, "/login");
 
   const communities = await getCommmunityByUser(userUuid);
-  const campaigns = await getCampaignByUser(userUuid);
+  const campaigns = await getCampaignByCommunity(params.slug);
 
   return {
     user,

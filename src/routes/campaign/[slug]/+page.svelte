@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Navbar from "../Navbar.svelte";
+  import Navbar from "../../Navbar.svelte";
 import LoanCard from "./LoanCard.svelte";
   import ProgressBar from "./ProgressBar.svelte";
 

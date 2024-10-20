@@ -1,6 +1,6 @@
 <script>
-    import Navbar from "./Navbar.svelte";
-    import CampaignCard from "./CampaignCard.svelte";
+    import Navbar from "../Navbar.svelte";
+    import CampaignCard from "../CampaignCard.svelte";
 
     /** @type {import('./$types').PageData} */
     export let data;
