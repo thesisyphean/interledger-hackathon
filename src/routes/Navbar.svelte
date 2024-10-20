@@ -17,6 +17,6 @@
     </ul>
   </div>
   <div class="navbar-end">
-    <button class="btn">Log Out</button>
+    <a href="/loans" class="btn">Loans</a>
   </div>
 </div>
