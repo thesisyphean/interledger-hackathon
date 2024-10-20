@@ -4,7 +4,8 @@ export interface Loan {
     loanId: string; // UUID
     beneficiaryId: string; // UUID
     lenderId: string; // UUID
-    tigerBeetleId: string; // Simulating unsigned 128-bit integer as string
+    tigerBeetleId1: number; // Simulating unsigned 128-bit integer as string
+    tigerBeetleId2: number;
     amount: number; // Decimal (18, 2)
     donation: boolean;
   }
@@ -47,14 +48,16 @@ export async function getLoansByCommunity(id: string): Promise<Loan[]> {
 export async function addLoan(
     beneficiaryId: string, 
     lenderId: string, 
-    tigerBeetleId: string, 
-    amount: number
+    tigerBeetleId1: number,
+    tigerBeetleId2: number, 
+    amount: number,
+    donation: boolean
 ): Promise<Loan> {
     const result = await pool.query(`
-        INSERT INTO "loans" ("beneficiaryId", "lenderId", "tigerBeetleId", "amount")
-        VALUES ($1, $2, $3, $4)
+        INSERT INTO "loans" ("beneficiaryId", "lenderId", "tigerBeetleId1", "tigerBeetleId2", "amount", "donation")
+        VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING *;
-    `, [beneficiaryId, lenderId, tigerBeetleId, amount]);
+    `, [beneficiaryId, lenderId, tigerBeetleId1, tigerBeetleId2, amount, donation]);
   
     return result.rows[0] as Loan;
 }

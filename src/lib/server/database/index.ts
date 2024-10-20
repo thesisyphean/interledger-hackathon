@@ -51,11 +51,12 @@ CREATE TABLE IF NOT EXISTS "loans" (
     "loanId" UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     "beneficiaryId" UUID NOT NULL,
     "lenderId" UUID NOT NULL,
-    "tigerBeetleId" DECIMAL(39) NOT NULL,  -- unsigned 128-bit integer
+    "tigerBeetleId1" DECIMAL(39) NOT NULL,  -- unsigned 128-bit integer
+    "tigerBeetleId2" DECIMAL(39) NOT NULL,
     "amount" DECIMAL(18, 2) NOT NULL,
-    "donation" BOOLEAN NOT NULL,
-    FOREIGN KEY ("beneficiaryId") REFERENCES "users"("userId"),
-    FOREIGN KEY ("lenderId") REFERENCES "users"("userId")
+    "donation" BOOLEAN NOT NULL
+    --FOREIGN KEY ("beneficiaryId") REFERENCES "users"("userId"),
+    --FOREIGN KEY ("lenderId") REFERENCES "users"("userId")
 );
 
 CREATE TABLE IF NOT EXISTS "communities" (
@@ -65,9 +66,15 @@ CREATE TABLE IF NOT EXISTS "communities" (
     "creationDate" DATE DEFAULT CURRENT_DATE
 );
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 INSERT INTO "communities" ("name", "description")
     VALUES ('Sample Community', 'Sample Community Description');
 
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 CREATE TABLE IF NOT EXISTS "userToCommunity" (
     "userId" UUID NOT NULL,
     "communityId" UUID NOT NULL,
@@ -81,12 +88,18 @@ CREATE TABLE IF NOT EXISTS "userToCommunity" (
 INSERT INTO "users" ("email", "password", "firstName", "surname", "walletAddress")
     VALUES ('luke.eberhard@gmail.com', 'poes', 'Luke', 'Eberhard', 'ergwfqegrergbegr');
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 INSERT INTO "userToCommunity" ("userId", "communityId")
     VALUES (
         (SELECT "userId" FROM "users" LIMIT 1),
         (SELECT "communityId" FROM "communities" LIMIT 1)
     );
 
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 INSERT INTO "campaigns" (
     "userId",
     "name",

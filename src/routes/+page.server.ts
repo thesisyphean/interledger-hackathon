@@ -4,6 +4,7 @@ import type { PageServerLoad } from "./$types";
 import { check_session } from "$lib/server/sessions";
 import { getUserById } from "$lib/server/database/users";
 import { getCommmunityByUser } from "$lib/server/database/community";
+import "$lib/server/ledger/index";
 
 export const load: PageServerLoad = async ({ params, cookies }) => {
   const userUuid = check_session(cookies.get("session"));
