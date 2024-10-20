@@ -20,7 +20,7 @@
       {#if data.isOwner}
         <p class="text-xl">{data.description?.slice(0, 20)}...</p>
       {:else}
-        <p class="text-xl">{data.ownerName}</p>
+        <p class="text-xl whitespace-nowrap">{data.ownerName}</p>
       {/if}
       <p class="whitespace-nowrap text-xl">Total: {data.requiredAmount}</p>
     </div>
