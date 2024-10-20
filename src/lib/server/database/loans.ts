@@ -11,14 +11,15 @@ export interface Loan {
   }
 
 // get loan between two users
-export async function getLoan(beneficiaryId: string, lenderId: string): Promise<Loan[]> {
+export async function getLoan(beneficiaryId: string, lenderId: string): Promise<Loan> {
     const result = await pool.query(`
         SELECT *
         FROM "loans" l
         WHERE l."beneficiaryId" = $1 AND l."lenderId" = $2;
+        LIMIT 1;
         `, [beneficiaryId, lenderId]);
   
-    return result.rows as Loan[];
+    return result.rows[0] as Loan;
 }
 
 // get loans by uuid of beneficiary
@@ -58,10 +59,10 @@ export async function getLoansByCommunity(id: string): Promise<Loan[]> {
 export async function getLoansByCampaign(id: string): Promise<Loan[]> {
     const result = await pool.query(`
         SELECT l.*
-        FROM loans l
-        INNER JOIN users u ON l.beneficiaryId = u.userId
-        INNER JOIN campaigns c ON u.userId = c.userId
-        WHERE c.campaignId = $1;
+        FROM "loans" l
+        INNER JOIN "users" u ON l."beneficiaryId" = u."userId"
+        INNER JOIN "campaigns" c ON u."userId" = c."userId"
+        WHERE c."campaignId" = $1;
         `, [id]);
   
     return result.rows as Loan[];
