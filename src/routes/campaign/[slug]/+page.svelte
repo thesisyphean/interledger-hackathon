@@ -1,11 +1,11 @@
 <script lang="ts">
   import Navbar from "../../Navbar.svelte";
-import LoanCard from "./LoanCard.svelte";
-  import ProgressBar from "./ProgressBar.svelte";
+  import LoanCard from "../../LoanCard.svelte";
+  import ProgressBar from "../../ProgressBar.svelte";
 
   /** @type {import('./$types').PageData} */
   export let data;
-  const amountFunded = data.loans.reduce((acc: Number, loan: any) => acc + loan.amountPaid, 0);
+  const amountFunded = data.loans.reduce((acc: number, loan: any) => acc + loan.amountPaid, 0);
 
   let payModal: HTMLDialogElement;
   let donateModal: HTMLDialogElement;
