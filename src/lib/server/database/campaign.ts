@@ -1,5 +1,4 @@
 import { pool } from "./index";
-import { getUsers } from "./users";
 
 export interface Campaign {
   campaignId: string; // UUID
@@ -30,7 +29,7 @@ export async function getCampaignByUser(id: string): Promise<Campaign[]> {
 }
 
 // get campaign by campaignId
-export async function getCampaignById(id: string): Promise<Campaign[]> {
+export async function getCampaignById(id: string): Promise<Campaign | null> {
     const result = await pool.query(
       `
               SELECT *
@@ -40,7 +39,7 @@ export async function getCampaignById(id: string): Promise<Campaign[]> {
       [id],
     );
   
-    return result.rows as Campaign[];
+    return (result.rows[0] ?? null) as Campaign | null;
   }
 
 // get campagn by lender

@@ -1,7 +1,18 @@
+<script>
+    let error = false;
+
+    function toggleError() {
+        error = true;
+    }
+</script>
+
 <div class="card w-96 bg-base-100 shadow-xl">
     <div class="card-body">
         <h2 class="card-title text-2xl font-bold mb-6">Login</h2>
-        <form method="post">
+        {#if error}
+        <p>Login failed</p>
+        {/if}
+        <form method="post" on:error={toggleError}>
             <div class="form-control">
                 <label class="label">
                     <span class="label-text">Email</span>
