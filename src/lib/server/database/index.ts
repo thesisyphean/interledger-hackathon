@@ -65,7 +65,10 @@ CREATE TABLE IF NOT EXISTS "communities" (
     "creationDate" DATE DEFAULT CURRENT_DATE
 );
 
-CREATE TABLE IF NOT EXISTS userToCommunity (
+INSERT INTO "communities" ("name", "description")
+    VALUES ('Sample Community', 'Sample Community Description');
+
+CREATE TABLE IF NOT EXISTS "userToCommunity" (
     "userId" UUID NOT NULL,
     "communityId" UUID NOT NULL,
     "joinedAt" DATE DEFAULT CURRENT_DATE,
@@ -78,7 +81,13 @@ CREATE TABLE IF NOT EXISTS userToCommunity (
 INSERT INTO "users" ("email", "password", "firstName", "surname", "walletAddress")
     VALUES ('luke.eberhard@gmail.com', 'poes', 'Luke', 'Eberhard', 'ergwfqegrergbegr');
 
-INSERT INTO campaigns (
+INSERT INTO "userToCommunity" ("userId", "communityId")
+    VALUES (
+        (SELECT "userId" FROM "users" LIMIT 1),
+        (SELECT "communityId" FROM "communities" LIMIT 1)
+    );
+
+INSERT INTO "campaigns" (
     "userId",
     "name",
     "amount",
@@ -94,8 +103,7 @@ VALUES (
     (SELECT "userId" FROM "users" ORDER BY "userId" LIMIT 1),  -- Get the UUID of the first user
     'Sample Campaign Name',                                 -- Filler campaign name
     1000.00,
-    'c40c28f3-869b-43b4-9c12-37510b6e348b',                                             -- Filler amount
-    -- (SELECT communityId FROM communities ORDER BY communityId LIMIT 1), -- Get the UUID of the first community
+    (SELECT communityId FROM communities ORDER BY communityId LIMIT 1), -- Get the UUID of the first community
     5.00,                                                -- Filler max interest rate
     'This is a sample campaign description.',            -- Filler description
     CURRENT_DATE,                                       -- Default to current date

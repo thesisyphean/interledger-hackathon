@@ -12,7 +12,7 @@
     <ul class="menu menu-horizontal px-1">
       {#if communities}
       {#each communities as community}
-      <li><a href="/">{community}</a></li>
+      <li><a href="/{community.communityId}">{community.name}</a></li>
       {/each}
       {/if}
     </ul>
