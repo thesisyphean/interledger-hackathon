@@ -4,6 +4,7 @@ import { check_session } from "$lib/server/sessions";
 import { getUserById } from "$lib/server/database/users";
 import { pay } from "$lib/server/payments/single";
 import { getLoansByBeneficiary } from "$lib/server/database/loans";
+import { getLoanBalance } from "$lib/server/ledger";
 
 export const load: PageServerLoad = async ({ params, cookies }) => {
   const userUuid = check_session(cookies.get("session"));
@@ -17,12 +18,13 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
   return {
     loans: await Promise.all(
       loans.map(async (loan, index) => {
-        const lender = await getUserById(loan.lenderId);
+        const lender = (await getUserById(loan.lenderId))!;
+        const balance = await getLoanBalance(user.userId, lender.userId);
         return {
           title: `Loan ${index}`,
-          beneficiary: `${lender?.firstName} ${lender?.surname}`,
-          totalAmount: 1000,
-          amountPaid: 500,
+          beneficiary: `${lender.firstName} ${lender.surname}`,
+          totalAmount: loan.amount,
+          amountPaid: balance,
         };
       }),
     ),
