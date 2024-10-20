@@ -37,10 +37,11 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
         const totalAmount = await getLoanCredits(loan.loanId);
         return {
           loanId: loan.loanId,
-          title: `Loan ${index}`,
+          title: loan.donation ? `Donation ${index + 1}` : `Loan ${index + 1}`,
           beneficiary: `${beneficiary.firstName} ${beneficiary.surname}`,
           amountPaid: amountPaid / 100,
           totalAmount: totalAmount / 100,
+          donation: loan.donation,
         };
       }),
     ),

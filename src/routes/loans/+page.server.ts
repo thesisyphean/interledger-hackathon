@@ -21,10 +21,11 @@ export const load: PageServerLoad = async ({ cookies }) => {
         const amountPaid = await getLoanDebits(loan.loanId);
         const totalAmount = await getLoanCredits(loan.loanId);
         return {
-          title: `Loan ${index}`,
+          title: loan.donation ? `Donation ${index + 1}` : `Loan ${index + 1}`,
           beneficiary: `${lender.firstName} ${lender.surname}`,
           amountPaid: amountPaid / 100,
           totalAmount: totalAmount / 100,
+          donation: loan.donation,
         };
       }),
     ),

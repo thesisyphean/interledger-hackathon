@@ -10,7 +10,7 @@ export const pool = new pg.Pool({
     rejectUnauthorized: false,
   },
   idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
+  connectionTimeoutMillis: 30000,
 });
 
 async function initDb() {
