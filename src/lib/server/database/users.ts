@@ -2,8 +2,8 @@ import { pool } from "./index";
 
 export interface User {
   userId: string; // UUID
-  email: string
-  password: string
+  email: string;
+  password: string;
   firstName: string;
   surname: string;
   walletAddress: string;
@@ -11,8 +11,8 @@ export interface User {
 
 export interface UserInCommunity {
   userId: string; // UUID
-  email: string
-  password: string
+  email: string;
+  password: string;
   firstName: string;
   surname: string;
   walletAddress: string;
@@ -97,20 +97,20 @@ export async function removeUser(userId: string): Promise<void> {
     `,
     [userId],
   );
-};
+}
 
 // get owner of campaign
 
 export async function getOwner(campagnId: string): Promise<User | null> {
-    const result = await pool.query(
-      `
+  const result = await pool.query(
+    `
         SELECT u.*
-        FROM users u
-        INNER JOIN campaigns c ON u.userId = c.userId
-        WHERE c.campaignId = $1;
+        FROM "users" u
+        INNER JOIN "campaigns" c ON u."userId" = c."userId"
+        WHERE c."campaignId" = $1;
       `,
-      [campagnId],
-    );
-  
-    return (result.rows[0] ?? null) as User | null;
-  }
+    [campagnId],
+  );
+
+  return (result.rows[0] ?? null) as User | null;
+}
