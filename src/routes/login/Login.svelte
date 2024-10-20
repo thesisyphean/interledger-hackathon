@@ -34,6 +34,7 @@
                         type="email"
                         class="grow"
                         placeholder="email@example.com"
+                        value="luke.eberhard@gmail.com"
                     />
                 </label>
             </div>
@@ -58,6 +59,7 @@
                         type="password"
                         class="grow"
                         placeholder="Enter password"
+                        value="password"
                     />
                 </label>
             </div>

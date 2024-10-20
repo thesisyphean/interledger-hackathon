@@ -18,8 +18,9 @@
     <div class="flex items-end space-x-10">
       <h1 class="text-3xl whitespace-nowrap">{data.campaignName}</h1>
       {#if data.isOwner}
-        <p class="text-xl">{data.description.slice(0, 20)}...</p>
+        <p class="text-xl">{data.description?.slice(0, 20)}...</p>
       {/if}
+      <p class="text-xl whitespace-nowrap">Total: {data.requiredAmount}</p>
     </div>
     <ProgressBar percentFunded={(amountFunded / data.requiredAmount) * 100} />
   </div>
