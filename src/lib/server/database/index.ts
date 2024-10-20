@@ -116,7 +116,7 @@ INSERT INTO "campaigns" (
     "repaymentDelayMonths"
 )
 VALUES (
-    (SELECT "userId" FROM "users" ORDER BY "userId" LIMIT 1),  -- Get the UUID of the first user
+    (SELECT "userId" FROM "users" where "firstName" = 'Jaque' LIMIT 1),  -- Get the UUID of the first user
     'Sample Campaign Name',                                 -- Filler campaign name
     1000.00,
     (SELECT "communityId" FROM communities ORDER BY "communityId" LIMIT 1), -- Get the UUID of the first community
@@ -127,7 +127,7 @@ VALUES (
     12,                                                 -- Filler repayment duration in months
     1                                                   -- Filler repayment delay in months
 ), (
-    (SELECT "userId" FROM "users" ORDER BY "userId" LIMIT 1),  -- Get the UUID of the first user
+    (SELECT "userId" FROM "users" WHERE "firstName" = 'Luke' LIMIT 1),  -- Get the UUID of the first user
     'Second Sample Campaign',                                 -- Filler campaign name
     2000.00,
     (SELECT "communityId" FROM communities ORDER BY "communityId" LIMIT 1), -- Get the UUID of the first community
