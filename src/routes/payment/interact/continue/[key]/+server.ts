@@ -11,7 +11,7 @@ export const GET: RequestHandler = async ({ url, params }) => {
   const interactRef = url.searchParams.get("interact_ref");
   if (!interactRef) return error(400);
 
-  completeInteract(key, interactRef);
+  await completeInteract(key, interactRef);
 
   return redirect(303, "/");
 };

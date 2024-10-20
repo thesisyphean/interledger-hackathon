@@ -17,6 +17,7 @@ import {
 import crypto from "node:crypto";
 import { registerInteract } from "./interact";
 import { error, redirect } from "@sveltejs/kit";
+import type { Amount } from ".";
 
 async function makeIncomingPaymentGrant(client: AuthenticatedClient, wallet: WalletAddress) {
   const grant = await client.grant.request(
@@ -155,7 +156,12 @@ async function makeOutgoingPayment(
   );
 }
 
-export async function pay(src: string, dst: string, amount: Amount, redir: string): Promise<never> {
+export async function pay(
+  src: string,
+  dst: string,
+  amount: Amount,
+  callback: () => Promise<void>,
+): Promise<never> {
   const client = await createAuthenticatedClient({
     walletAddressUrl: OPENPAYMENTS_WALLET_ADDRESS,
     keyId: OPENPAYMENTS_KEY_ID,
@@ -185,7 +191,7 @@ export async function pay(src: string, dst: string, amount: Amount, redir: strin
     quote,
   );
 
-  registerInteract(nonce, async (interactRef: string) => {
+  registerInteract(continueKey, async (interactRef: string) => {
     const grantOut = await client.grant.continue(
       {
         accessToken: pendingGrantOut.continue.access_token.value,
@@ -203,7 +209,7 @@ export async function pay(src: string, dst: string, amount: Amount, redir: strin
     if (paymentOut.failed) {
       return error(500, "payment failed");
     }
-    return redirect(303, redir);
+    await callback();
   });
 
   return redirect(303, pendingGrantOut.interact.redirect);

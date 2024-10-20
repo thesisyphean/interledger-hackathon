@@ -1,10 +1,11 @@
-import type { PageServerLoad } from "./$types";
+import type { Actions, PageServerLoad } from "./$types";
 import { getCampaignById } from "$lib/server/database/campaign";
-import { error, redirect } from "@sveltejs/kit";
+import { error, fail, redirect } from "@sveltejs/kit";
 import { check_session } from "$lib/server/sessions";
 import { getUserById } from "$lib/server/database/users";
-import { getLoanBalance } from "$lib/server/ledger";
+import { createLoan, getLoanBalance, payAmount } from "$lib/server/ledger";
 import { getLoansByCampaign } from "$lib/server/database/loans";
+import { pay } from "$lib/server/payments/single";
 
 export const load: PageServerLoad = async ({ params, cookies }) => {
   const userUuid = check_session(cookies.get("session"));
@@ -16,24 +17,157 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
   const campaign = await getCampaignById(params.slug);
   if (!campaign) error(404);
 
-  const loans = await getLoansByCampaign(campaign.userId);
+  const loans = await getLoansByCampaign(campaign.campaignId);
 
+  const isOwner = campaign.userId === user.userId;
   return {
+    slug: params.slug,
     campaignName: campaign.name,
     description: campaign.description,
     requiredAmount: campaign.amount,
-    isOwner: campaign.userId === user.userId,
+    isOwner,
     loans: await Promise.all(
       loans.map(async (loan, index) => {
-        const lender = (await getUserById(loan.lenderId))!;
-        const balance = await getLoanBalance(user.userId, lender.userId);
+        const uid = isOwner ? loan.lenderId : loan.beneficiaryId;
+        const beneficiary = (await getUserById(uid))!;
+        const balance = await getLoanBalance(user.userId, uid);
         return {
+          userId: uid,
           title: `Loan ${index}`,
-          beneficiary: `${lender.firstName} ${lender.surname}`,
+          beneficiary: `${beneficiary.firstName} ${beneficiary.surname}`,
           totalAmount: loan.amount,
           amountPaid: balance,
         };
       }),
     ),
   };
+};
+
+export const actions: Actions = {
+  donate: async ({ request, params, cookies }) => {
+    const userUuid = check_session(cookies.get("session"));
+    if (!userUuid) return error(401);
+
+    const user = await getUserById(userUuid);
+    if (!user) return error(401);
+
+    const campaign = await getCampaignById(params.slug);
+    if (!campaign) error(404);
+
+    const data = await request.formData();
+
+    const amountStr = data.get("amount");
+    if (!amountStr || typeof amountStr !== "string") {
+      return fail(422);
+    }
+    const amount = Number(amountStr);
+    if (Number.isNaN(amount)) {
+      return fail(422);
+    }
+
+    const dstUser = await getUserById(campaign.userId);
+    if (dstUser === null) return fail(400);
+
+    const value = Math.round(amount * 100);
+
+    await pay(
+      user.walletAddress,
+      dstUser.walletAddress,
+      {
+        value: String(value),
+        assetCode: "ZAR",
+        assetScale: 2,
+      },
+      async () => {
+        await createLoan(dstUser.userId, user.userId, value, true);
+        await payAmount(user.userId, dstUser.userId, value);
+        redirect(303, `/campaign/${params.slug}`);
+      },
+    );
+  },
+  lend: async ({ request, params, cookies }) => {
+    const userUuid = check_session(cookies.get("session"));
+    if (!userUuid) return error(401);
+
+    const user = await getUserById(userUuid);
+    if (!user) return error(401);
+
+    const campaign = await getCampaignById(params.slug);
+    if (!campaign) error(404);
+
+    const data = await request.formData();
+
+    const amountStr = data.get("amount");
+    if (!amountStr || typeof amountStr !== "string") {
+      return fail(422);
+    }
+    const amount = Number(amountStr);
+    if (Number.isNaN(amount)) {
+      return fail(422);
+    }
+
+    const dstUser = await getUserById(campaign.userId);
+    if (dstUser === null) return fail(400);
+
+    const value = Math.round(amount * 100);
+
+    await pay(
+      user.walletAddress,
+      dstUser.walletAddress,
+      {
+        value: String(value),
+        assetCode: "ZAR",
+        assetScale: 2,
+      },
+      async () => {
+        await createLoan(user.userId, dstUser.userId, value, false);
+        await payAmount(user.userId, dstUser.userId, value);
+        redirect(303, `/campaign/${params.slug}`);
+      },
+    );
+  },
+  pay: async ({ request, params, cookies }) => {
+    const userUuid = check_session(cookies.get("session"));
+    if (!userUuid) return error(401);
+
+    const user = await getUserById(userUuid);
+    if (!user) return error(401);
+
+    const campaign = await getCampaignById(params.slug);
+    if (!campaign) error(404);
+
+    const data = await request.formData();
+
+    const amountStr = data.get("amount");
+    if (!amountStr || typeof amountStr !== "string") {
+      return fail(422);
+    }
+    const id = data.get("id");
+    if (!id || typeof id !== "string") {
+      return fail(422);
+    }
+    const amount = Number(amountStr);
+    if (Number.isNaN(amount)) {
+      return fail(422);
+    }
+
+    const dstUser = await getUserById(id);
+    if (dstUser === null) return fail(400);
+
+    const value = Math.round(amount * 100);
+
+    await pay(
+      user.walletAddress,
+      dstUser.walletAddress,
+      {
+        value: String(value),
+        assetCode: "ZAR",
+        assetScale: 2,
+      },
+      async () => {
+        await payAmount(user.userId, dstUser.userId, value);
+        redirect(303, `/campaign/${params.slug}`);
+      },
+    );
+  },
 };

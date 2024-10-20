@@ -86,15 +86,15 @@ INSERT INTO "users" ("email", "password", "firstName", "surname", "walletAddress
 
 INSERT INTO "userToCommunity" ("userId", "communityId")
     VALUES (
-        (SELECT "userId" FROM "users" WHERE "firstName" = "Luke"LIMIT 1),
+        (SELECT "userId" FROM "users" WHERE "firstName" = 'Luke' LIMIT 1),
         (SELECT "communityId" FROM "communities" LIMIT 1)
     ),
     (
-      (SELECT "userId" FROM "users" WHERE "firstName" = "Luke" LIMIT 1),
+      (SELECT "userId" FROM "users" WHERE "firstName" = 'Luke' LIMIT 1),
       (SELECT "communityId" FROM "communities" WHERE "name" = 'Sample Community 2' LIMIT 1)
     ),
     (
-      (SELECT "userId" FROM "users" WHERE "firstName" = "Joe" LIMIT 1),
+      (SELECT "userId" FROM "users" WHERE "firstName" = 'Joe' LIMIT 1),
       (SELECT "communityId" FROM "communities" WHERE "name" = 'Sample Community 2' LIMIT 1)
     );
 
@@ -133,8 +133,8 @@ VALUES (
     12,                                                 -- Filler repayment duration in months
     1                                                   -- Filler repayment delay in months
 ), (
-    (SELECT "userId" FROM "users" WHERE "firstName" = "Joe" LIMIT 1),  -- Get the UUID of the first user
-    'Joe's Sample Campaign',                                 -- Filler campaign name
+    (SELECT "userId" FROM "users" WHERE "firstName" = 'Joe' LIMIT 1),  -- Get the UUID of the first user
+    'Joes Sample Campaign',                                 -- Filler campaign name
     2000.00,
     (SELECT "communityId" FROM communities WHERE "name" = 'Sample Community 2' LIMIT 1), -- Get the UUID of the first community
     5.00,                                                -- Filler max interest rate
