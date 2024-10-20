@@ -10,4 +10,3 @@
     <LoanCard {...loan} />
   {/each}
 </div>
-

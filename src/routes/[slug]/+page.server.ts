@@ -20,7 +20,7 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
     communities,
     campaigns: campaigns.map((campaign, index) => ({
       imageURL:
-        "https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-800x525.jpg", // Placeholder image, change if necessary
+        "https://interledger.org/sites/default/files/styles/article_feature/public/image-uploads/Use%20cases%202.png.webp?itok=eS8i_5Hq", // Placeholder image, change if necessary
       title: campaign.name || `Campaign ${index + 1}`, // Or use campaign.name if available
       description: campaign.description || `This is campaign ${index + 1}`, // Fallback description
       actionText: `View Campaign ${index + 1}`,

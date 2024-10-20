@@ -18,7 +18,7 @@
     <div class="flex items-end space-x-10">
       <h1 class="text-3xl">{data.campaignName}</h1>
       {#if data.isOwner}
-        <p class="text-xl">{data.description.slice(0, 10)}...</p>
+        <p class="text-xl">{data.description.slice(0, 20)}...</p>
       {:else}
         <div class="avatar placeholder">
           <div class="w-16 rounded-full bg-neutral text-neutral-content">

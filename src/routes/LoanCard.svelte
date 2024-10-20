@@ -7,7 +7,7 @@
   export let amountPaid = 500;
 </script>
 
-<div class="card flex w-full flex-row items-center space-x-6 bg-base-100 p-8 shadow-xl">
+<div class="card flex w-full flex-row items-center space-x-6 bg-base-100 p-8 shadow-xl whitespace-nowrap">
   <div class="avatar placeholder">
     <div class="w-16 rounded-full bg-neutral text-neutral-content">
       <span class="text-2xl">{beneficiary[0]}</span>
