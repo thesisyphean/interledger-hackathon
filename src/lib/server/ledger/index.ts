@@ -59,7 +59,7 @@ export async function createLoan(idTo: string, idFrom: string, amount:number, do
 
 export async function getLoanBalance(id1: string, id2: string) {
     let loans = getLoan(id1, id2);
-    let loan = loans[0] | null;
+    let loan = loans[0];
 
     let accounts = await client.lookupAccounts([BigInt(loans[0].beneficiaryId)]);
     return accounts[0].credits_posted - accounts[0].debits_posted;

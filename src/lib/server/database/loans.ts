@@ -55,6 +55,18 @@ export async function getLoansByCommunity(id: string): Promise<Loan[]> {
     return result.rows as Loan[];
 }
 
+export async function getLoansByCampaign(id: string): Promise<Loan[]> {
+    const result = await pool.query(`
+        SELECT l.*
+        FROM loans l
+        INNER JOIN users u ON l.beneficiaryId = u.userId
+        INNER JOIN campaigns c ON u.userId = c.userId
+        WHERE c.campaignId = $1;
+        `, [id]);
+  
+    return result.rows as Loan[];
+}
+
 // add loan
 export async function addLoan(
     beneficiaryId: string, 
