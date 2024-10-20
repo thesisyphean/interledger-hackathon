@@ -10,6 +10,17 @@ export interface Loan {
     donation: boolean;
   }
 
+// get loan between two users
+export async function getLoan(beneficiaryId: string, lenderId: string): Promise<Loan[]> {
+    const result = await pool.query(`
+        SELECT *
+        FROM "loans" l
+        WHERE l."beneficiaryId" = $1 AND l."lenderId" = $2;
+        `, [beneficiaryId, lenderId]);
+  
+    return result.rows as Loan[];
+}
+
 // get loans by uuid of beneficiary
 export async function getLoansByBeneficiary(id: string): Promise<Loan[]> {
     const result = await pool.query(`

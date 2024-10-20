@@ -1,7 +1,7 @@
 import { id } from "tigerbeetle-node";
 import { createClient } from "tigerbeetle-node";
 import { BEETLE_HOST, BEETLE_PORT } from "$env/static/private";
-import { addLoan } from "../database/loans";
+import { addLoan, getLoan } from "../database/loans";
 
 let acc_id = 1;
 
@@ -57,8 +57,11 @@ export async function createLoan(idTo: string, idFrom: string, amount:number, do
       const transfer_errors = await client.createTransfers(transfers);
 }
 
-export async function getLoanBalance(id1: number, id2: number) {
-    let accounts = await client.lookupAccounts([BigInt(id1)]);
+export async function getLoanBalance(id1: string, id2: string) {
+    let loans = getLoan(id1, id2);
+    let loan = loans[0] | null;
+
+    let accounts = await client.lookupAccounts([BigInt(loans[0].beneficiaryId)]);
     return accounts[0].credits_posted - accounts[0].debits_posted;
 }
 
