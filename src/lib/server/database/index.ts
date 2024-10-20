@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS "userToCommunity" (
 
 INSERT INTO "users" ("email", "password", "firstName", "surname", "walletAddress")
     VALUES ('luke.eberhard@gmail.com', 'password', 'Luke', 'Eberhard', 'https://ilp.interledger-test.dev/payment-yes'),
-           ('joe@test.com, 'pword', 'Joe', 'Test', 'https://ilp.interledger-test.dev/testpointer');
+           ('joe@test.com', 'pword', 'Joe', 'Test', 'https://ilp.interledger-test.dev/testpointer');
 
 INSERT INTO "userToCommunity" ("userId", "communityId")
     VALUES (
