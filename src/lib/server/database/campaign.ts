@@ -72,6 +72,18 @@ export async function getCampaignByCommunity(id: string): Promise<Campaign[]> {
   return result.rows as Campaign[];
 }
 
+// get campaigns in communities by userId
+export async function getCommunityCampaignsById(id: string): Promise<Campaign[]> {
+    const result = await pool.query(`
+        SELECT *
+        FROM "campaigns" c
+        INNER JOIN "communities" cm ON c."communityId" = cm."communityId"
+        INNER JOIN "userToCommunity" utc ON cm."communityId" = utc."communityId"
+        WHERE utc."userId" = $1;
+    `, [id]);
+    return result.rows as Campaign[];
+  }
+
 // add campaign
 export async function addCampaign(
   userId: string,
