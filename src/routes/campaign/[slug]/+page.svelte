@@ -16,15 +16,9 @@
 <div class="min-h-screen space-y-10 bg-base-200 p-10">
   <div class="flex flex-row items-center space-x-10">
     <div class="flex items-end space-x-10">
-      <h1 class="text-3xl">{data.campaignName}</h1>
+      <h1 class="text-3xl whitespace-nowrap">{data.campaignName}</h1>
       {#if data.isOwner}
         <p class="text-xl">{data.description.slice(0, 20)}...</p>
-      {:else}
-        <div class="avatar placeholder">
-          <div class="w-16 rounded-full bg-neutral text-neutral-content">
-            <span class="text-2xl">D</span>
-          </div>
-        </div>
       {/if}
     </div>
     <ProgressBar percentFunded={(amountFunded / data.requiredAmount) * 100} />
@@ -63,13 +57,13 @@
       {/each}
     </div>
   {:else}
-    <div class="flex flex-row space-x-4 rounded-xl bg-base-100 p-4 shadow-xl">
+    <div class="flex flex-row space-x-4 rounded-xl bg-base-100 p-4 shadow-xl justify-items-stretch w-full">
       <img
         class="h-32 rounded-xl"
         src="https://c8.alamy.com/comp/2K31TN8/he-only-has-eyes-for-his-boy-a-young-man-lifting-his-son-up-into-the-air-2K31TN8.jpg"
         alt="Movie"
       />
-      <p class="text-lg">{data.description}</p>
+      <p class="text-lg grow">{data.description}Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce scelerisque urna lorem, id luctus massa semper sit amet. Ut id congue turpis, quis vulputate sem. Donec ut sapien augue. Nunc ex lectus, faucibus nec rhoncus a, dapibus et sem. Cras eu massa nulla. Praesent vulputate mi in diam condimentum luctus. Proin et dapibus est. In feugiat porta sem. Cras maximus felis tortor, at lacinia orci sodales non.</p>
       <div class="flex flex-col space-y-8">
         <button class="btn btn-accent" on:click={() => donateModal.showModal()}>Donate</button>
         <dialog class="modal" bind:this={donateModal}>
