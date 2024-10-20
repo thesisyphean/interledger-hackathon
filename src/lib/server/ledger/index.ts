@@ -3,7 +3,7 @@ import { createClient } from "tigerbeetle-node";
 import { BEETLE_HOST, BEETLE_PORT } from "$env/static/private";
 import { addLoan } from "../database/loans";
 
-let acc_id = 0;
+let acc_id = 1;
 
 
 const client = createClient({
@@ -33,12 +33,12 @@ export async function createAccount(id: number, uuid:string) {
       return account;
     };
 
-export async function createLoan(id1: string, id2: string, amount:number, donation:boolean){
-    let account_errors = await createAccount(acc_id, id1);
+export async function createLoan(idTo: string, idFrom: string, amount:number, donation:boolean){
+    let account_errors = await createAccount(acc_id, idTo);
     acc_id ++;
-    account_errors = await createAccount(acc_id, id2);
+    account_errors = await createAccount(acc_id, idFrom);
     acc_id ++;
-    addLoan(id1,id2,acc_id-1, acc_id, amount, donation);
+    addLoan(idTo,idFrom,acc_id-2, acc_id-1, amount, donation);
     const transfers = [{
         id: id(), // TigerBeetle time-based ID.
         debit_account_id: BigInt(acc_id-1),
@@ -59,16 +59,14 @@ export async function createLoan(id1: string, id2: string, amount:number, donati
 
 export async function getLoanBalance(id1: number, id2: number) {
     let accounts = await client.lookupAccounts([BigInt(id1)]);
-    console.log(accounts[0]);
-    console.log(id2);
     return accounts[0].credits_posted - accounts[0].debits_posted;
 }
 
-export async function payAmount(id1:number, id2:number, amount:number) {
+export async function payAmount(id_from:number, id_to:number, amount:number) {
     const transfers = [{
         id: id(), // TigerBeetle time-based ID.
-        debit_account_id: BigInt(id1),
-        credit_account_id: BigInt(id2),
+        debit_account_id: BigInt(id_from),
+        credit_account_id: BigInt(id_to),
         amount: BigInt(amount),
         pending_id: 0n,
         user_data_128: 0n,
@@ -84,7 +82,6 @@ export async function payAmount(id1:number, id2:number, amount:number) {
       const transfer_errors = await client.createTransfers(transfers);
 }
   
-await createLoan("8c7ccbb1-4b6f-4b7d-8c7f-4f2bb3b14efc", "0a2ee7bc-04d9-4445-a7a0-b298f4760ff9", 10, false);
-console.log("Whee");
-console.log(await getLoanBalance(acc_id-1, acc_id-2));
-  // Error handling omitted.
+// await createLoan("8c7ccbb1-4b6f-4b7d-8c7f-4f2bb3b14efc", "0a2ee7bc-04d9-4445-a7a0-b298f4760ff9", 10, false);
+// console.log(await getLoanBalance(1, 2));
+
