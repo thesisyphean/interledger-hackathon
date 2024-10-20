@@ -1,5 +1,6 @@
 import crypto from "node:crypto";
 import { getUserByEmail, addUser } from "../database/users";
+import { error } from "@sveltejs/kit";
 
 interface Session {
   userId: string;
@@ -27,7 +28,13 @@ export function check_session(session: string | undefined): string | null {
   return s.userId;
 }
 
-export async function signup(firstName: string, lastName: string, email: string, password: string, url: string): Promise<string | null> {
+export async function signup(
+  firstName: string,
+  lastName: string,
+  email: string,
+  password: string,
+  url: string,
+): Promise<string | null> {
   const user = await addUser(email, password, firstName, lastName, url);
 
   const session = crypto.randomBytes(16).toString("base64");
@@ -42,6 +49,8 @@ export async function signup(firstName: string, lastName: string, email: string,
 export async function login(email: string, password: string): Promise<string | null> {
   const user = await getUserByEmail(email);
   if (user === null) return null;
+
+  if (user.password !== password) return null;
 
   const session = crypto.randomBytes(16).toString("base64");
   sessions.set(session, {
