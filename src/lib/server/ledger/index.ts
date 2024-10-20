@@ -64,11 +64,12 @@ export async function getLoanBalance(id1: string, id2: string) {
     return accounts[0].credits_posted - accounts[0].debits_posted;
 }
 
-export async function payAmount(id_from:number, id_to:number, amount:number) {
+export async function payAmount(id_from:string, id_to:string, amount:number) {
+    let loan = await getLoan(id_from, id_to);
     const transfers = [{
         id: id(), // TigerBeetle time-based ID.
-        debit_account_id: BigInt(id_from),
-        credit_account_id: BigInt(id_to),
+        debit_account_id: BigInt(loan.tigerBeetleId1),
+        credit_account_id: BigInt(loan.tigerBeetleId2),
         amount: BigInt(amount),
         pending_id: 0n,
         user_data_128: 0n,
