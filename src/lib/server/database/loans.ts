@@ -11,16 +11,15 @@ export interface Loan {
 }
 
 // get loan between two users
-export async function getLoan(id1: string, id2: string): Promise<Loan> {
+export async function getLoanById(id: string): Promise<Loan> {
   const result = await pool.query(
     `
         SELECT *
         FROM "loans" l
-        WHERE (l."beneficiaryId" = $1 AND l."lenderId" = $2)
-        OR (l."beneficiaryId" = $2 AND l."lenderId" = $1)
+        WHERE l."loanId" = $1
         LIMIT 1;
         `,
-    [id1, id2],
+    [id],
   );
 
   return result.rows[0] as Loan;

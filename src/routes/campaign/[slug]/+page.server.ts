@@ -4,7 +4,7 @@ import { error, fail, redirect } from "@sveltejs/kit";
 import { check_session } from "$lib/server/sessions";
 import { getUserById } from "$lib/server/database/users";
 import { createLoan, getLoanCredits, getLoanDebits, payAmount } from "$lib/server/ledger";
-import { getLoansByCampaign } from "$lib/server/database/loans";
+import { getLoanById, getLoansByCampaign } from "$lib/server/database/loans";
 import { pay } from "$lib/server/payments/single";
 
 export const load: PageServerLoad = async ({ params, cookies }) => {
@@ -30,10 +30,10 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
       loans.map(async (loan, index) => {
         const uid = isOwner ? loan.lenderId : loan.beneficiaryId;
         const beneficiary = (await getUserById(uid))!;
-        const amountPaid = await getLoanDebits(user.userId, uid);
-        const totalAmount = await getLoanCredits(user.userId, uid);
+        const amountPaid = await getLoanDebits(loan.loanId);
+        const totalAmount = await getLoanCredits(loan.loanId);
         return {
-          userId: uid,
+          loanId: loan.loanId,
           title: `Loan ${index}`,
           beneficiary: `${beneficiary.firstName} ${beneficiary.surname}`,
           amountPaid: amountPaid / 100,
@@ -150,8 +150,13 @@ export const actions: Actions = {
       return fail(422);
     }
 
-    const dstUser = await getUserById(id);
-    if (dstUser === null) return fail(400);
+    const loan = await getLoanById(id);
+    if (load === null) return fail(400);
+
+    if (loan.beneficiaryId !== user.userId) return fail(401);
+
+    const dstUser = await getUserById(loan.lenderId);
+    if (dstUser === null) return fail(500);
 
     const value = Math.round(amount * 100);
 
@@ -164,7 +169,7 @@ export const actions: Actions = {
         assetScale: 2,
       },
       async () => {
-        await payAmount(user.userId, dstUser.userId, value);
+        await payAmount(loan.loanId, value);
         redirect(303, `/campaign/${params.slug}`);
       },
     );

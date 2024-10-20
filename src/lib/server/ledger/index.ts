@@ -1,7 +1,7 @@
 import { id } from "tigerbeetle-node";
 import { createClient } from "tigerbeetle-node";
 import { BEETLE_HOST, BEETLE_PORT } from "$env/static/private";
-import { addLoan, getLoan } from "../database/loans";
+import { addLoan, getLoanById } from "../database/loans";
 
 let acc_id = 1;
 
@@ -26,14 +26,14 @@ export async function createAccount(id: number, uuid: string) {
     timestamp: 0n,
     flags: 0,
   };
-  const error = await client.createAccounts([account]);
+  await client.createAccounts([account]);
   return account;
 }
 
 export async function createLoan(idTo: string, idFrom: string, amount: number, donation: boolean) {
-  let account_errors = await createAccount(acc_id, idTo);
+  await createAccount(acc_id, idTo);
   acc_id++;
-  account_errors = await createAccount(acc_id, idFrom);
+  await createAccount(acc_id, idFrom);
   acc_id++;
   await addLoan(idTo, idFrom, acc_id - 2, acc_id - 1, amount, donation);
   const transfers = [
@@ -53,25 +53,25 @@ export async function createLoan(idTo: string, idFrom: string, amount: number, d
       timestamp: 0n,
     },
   ];
-  const transfer_errors = await client.createTransfers(transfers);
+  await client.createTransfers(transfers);
 }
 
-export async function getLoanDebits(id1: string, id2: string) {
-  let loan = await getLoan(id1, id2);
+export async function getLoanDebits(id: string) {
+  const loan = await getLoanById(id);
 
-  let accounts = await client.lookupAccounts([BigInt(loan.tigerBeetleId1)]);
+  const accounts = await client.lookupAccounts([BigInt(loan.tigerBeetleId1)]);
   return Number(accounts[0].debits_posted);
 }
 
-export async function getLoanCredits(id1: string, id2: string) {
-  let loan = await getLoan(id1, id2);
+export async function getLoanCredits(id: string) {
+  const loan = await getLoanById(id);
 
-  let accounts = await client.lookupAccounts([BigInt(loan.tigerBeetleId1)]);
+  const accounts = await client.lookupAccounts([BigInt(loan.tigerBeetleId1)]);
   return Number(accounts[0].credits_posted);
 }
 
-export async function payAmount(id_from: string, id_to: string, amount: number) {
-  let loan = await getLoan(id_from, id_to);
+export async function payAmount(loanId: string, amount: number) {
+  const loan = await getLoanById(loanId);
   const transfers = [
     {
       id: id(), // TigerBeetle time-based ID.
@@ -90,7 +90,7 @@ export async function payAmount(id_from: string, id_to: string, amount: number) 
     },
   ];
 
-  const transfer_errors = await client.createTransfers(transfers);
+  await client.createTransfers(transfers);
 }
 
 // await createLoan("8c7ccbb1-4b6f-4b7d-8c7f-4f2bb3b14efc", "0a2ee7bc-04d9-4445-a7a0-b298f4760ff9", 10, false);

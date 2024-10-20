@@ -20,7 +20,7 @@
       {#if data.isOwner}
         <p class="text-xl">{data.description?.slice(0, 20)}...</p>
       {/if}
-      <p class="text-xl whitespace-nowrap">Total: {data.requiredAmount}</p>
+      <p class="whitespace-nowrap text-xl">Total: {data.requiredAmount}</p>
     </div>
     <ProgressBar percentFunded={(amountFunded / data.requiredAmount) * 100} />
   </div>
@@ -40,7 +40,7 @@
                   <div class="label">
                     <span class="label-text">How much would you like to pay?</span>
                   </div>
-                  <input type="hidden" name="id" value={loan.userId} />
+                  <input type="hidden" name="id" value={loan.loanId} />
                   <input
                     name="amount"
                     type="number"

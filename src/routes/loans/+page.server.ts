@@ -18,8 +18,8 @@ export const load: PageServerLoad = async ({ cookies }) => {
     loans: await Promise.all(
       loans.map(async (loan, index) => {
         const lender = (await getUserById(loan.lenderId))!;
-        const amountPaid = await getLoanDebits(user.userId, lender.userId);
-        const totalAmount = await getLoanCredits(user.userId, lender.userId);
+        const amountPaid = await getLoanDebits(loan.loanId);
+        const totalAmount = await getLoanCredits(loan.loanId);
         return {
           title: `Loan ${index}`,
           beneficiary: `${lender.firstName} ${lender.surname}`,
