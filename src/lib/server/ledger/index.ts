@@ -56,11 +56,18 @@ export async function createLoan(idTo: string, idFrom: string, amount: number, d
   const transfer_errors = await client.createTransfers(transfers);
 }
 
-export async function getLoanBalance(id1: string, id2: string) {
+export async function getLoanDebits(id1: string, id2: string) {
   let loan = await getLoan(id1, id2);
 
   let accounts = await client.lookupAccounts([BigInt(loan.tigerBeetleId1)]);
-  return Number(accounts[0].credits_posted - accounts[0].debits_posted);
+  return Number(accounts[0].debits_posted);
+}
+
+export async function getLoanCredits(id1: string, id2: string) {
+  let loan = await getLoan(id1, id2);
+
+  let accounts = await client.lookupAccounts([BigInt(loan.tigerBeetleId1)]);
+  return Number(accounts[0].credits_posted);
 }
 
 export async function payAmount(id_from: string, id_to: string, amount: number) {

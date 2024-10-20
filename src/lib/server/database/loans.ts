@@ -12,7 +12,6 @@ export interface Loan {
 
 // get loan between two users
 export async function getLoan(id1: string, id2: string): Promise<Loan> {
-  console.log(id1, id2);
   const result = await pool.query(
     `
         SELECT *
@@ -23,7 +22,6 @@ export async function getLoan(id1: string, id2: string): Promise<Loan> {
         `,
     [id1, id2],
   );
-  console.log(result);
 
   return result.rows[0] as Loan;
 }

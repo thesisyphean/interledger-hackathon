@@ -3,7 +3,7 @@ import { getCampaignById } from "$lib/server/database/campaign";
 import { error, fail, redirect } from "@sveltejs/kit";
 import { check_session } from "$lib/server/sessions";
 import { getUserById } from "$lib/server/database/users";
-import { createLoan, getLoanBalance, payAmount } from "$lib/server/ledger";
+import { createLoan, getLoanCredits, getLoanDebits, payAmount } from "$lib/server/ledger";
 import { getLoansByCampaign } from "$lib/server/database/loans";
 import { pay } from "$lib/server/payments/single";
 
@@ -30,13 +30,14 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
       loans.map(async (loan, index) => {
         const uid = isOwner ? loan.lenderId : loan.beneficiaryId;
         const beneficiary = (await getUserById(uid))!;
-        const balance = await getLoanBalance(user.userId, uid);
+        const amountPaid = await getLoanDebits(user.userId, uid);
+        const totalAmount = await getLoanCredits(user.userId, uid);
         return {
           userId: uid,
           title: `Loan ${index}`,
           beneficiary: `${beneficiary.firstName} ${beneficiary.surname}`,
-          totalAmount: loan.amount,
-          amountPaid: balance,
+          amountPaid: amountPaid / 100,
+          totalAmount: totalAmount / 100,
         };
       }),
     ),
@@ -80,7 +81,6 @@ export const actions: Actions = {
       },
       async () => {
         await createLoan(dstUser.userId, user.userId, value, true);
-        await payAmount(user.userId, dstUser.userId, value);
         redirect(303, `/campaign/${params.slug}`);
       },
     );
@@ -120,8 +120,7 @@ export const actions: Actions = {
         assetScale: 2,
       },
       async () => {
-        await createLoan(user.userId, dstUser.userId, value, false);
-        await payAmount(user.userId, dstUser.userId, value);
+        await createLoan(dstUser.userId, user.userId, value, false);
         redirect(303, `/campaign/${params.slug}`);
       },
     );
