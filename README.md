@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a webapp created for an overnight hackathon hosted by the Interledger Foundation. The app is intended to be used by communities to support individuals that need funds. Users can view requests in their communities and donate or loan money. The application uses the Open Payments API to support payments between users and use a TigerBeetle database to record transactions. Our team won the 2nd place award for teams that used a TigerBeetle database. Images at the bottom of this README show the UI.
+This is a webapp created for an overnight hackathon hosted by the Interledger Foundation. The app is intended to be used by communities to support individuals that need funds. Users can view requests in their communities and donate or loan money. The application uses the Open Payments API to support payments between users and uses a TigerBeetle database to record transactions. Our team won the 2nd place award for teams that used a TigerBeetle database. Images at the bottom of this README show the UI.
 
 ## Setup/Configuration
 
