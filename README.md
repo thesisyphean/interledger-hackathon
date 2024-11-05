@@ -1,5 +1,9 @@
 # Usizo
 
+## Description
+
+This is a webapp created for an overnight hackathon hosted by the Interledger Foundation. The app is intended to be used by communities to support individuals that need funds. Users can view requests in their communities and donate or loan money. The application uses the Open Payments API to support payments between users and use a TigerBeetle database to record transactions. Our team won the 2nd place award for teams that used a TigerBeetle database. Images at the bottom of this README show the UI.
+
 ## Setup/Configuration
 
 Copy the `.env.example` file into a `.env` file in the project root, and customise the values according to your setup.
@@ -37,3 +41,14 @@ npm run build
 ```
 
 You can preview the production build with `npm run preview`.
+
+## Images
+
+![A user's campaigns](images/i2.jpeg)
+![Campaigns in a community](images/i1.jpeg)
+![A campaign for lab equipment](images/i7.jpeg)
+![A campaign that is partially paid](images/i3.jpeg)
+![A view of a campaign's loans and donations](images/i5.jpeg)
+![A view showing the payments reflecting for a campaign](images/i6.jpeg)
+![A user's loans](images/i4.jpeg)
+
